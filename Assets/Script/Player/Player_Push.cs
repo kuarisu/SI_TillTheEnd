@@ -5,6 +5,7 @@ public class Player_Push : MonoBehaviour {
 
     public GameObject Physic;
 
+
 	// Update is called once per frame
 	void Update () {
 
@@ -18,9 +19,11 @@ public class Player_Push : MonoBehaviour {
     //Enable a Trigger to active movement script of the cubes
     IEnumerator Push()
     {
+        
         Physic.GetComponent<SphereCollider>().enabled = true;
-        yield return new WaitForEndOfFrame();
+        yield return new WaitForSeconds(0.5f);
         Physic.GetComponent<SphereCollider>().enabled = false;
         yield return null;
     }
+
 }

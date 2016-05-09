@@ -5,14 +5,7 @@ public class Player_Move : MonoBehaviour
 {
 
     private bool IsMoving = false;      //Définit si le Player est en mouvement ou non
-    private float Movement = 0.15f;      //Vitesse de déplacement du Player
-
-    // Use this for initialization
-    void Start()
-    {
-
-        this.transform.position = new Vector3(0, 1, 0);
-    }
+    private float Movement = 0.15f;      //Vitesse de déplacement du 
 
     void Update()
     {
