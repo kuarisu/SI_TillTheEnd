@@ -5,12 +5,19 @@ public class Player_Push : MonoBehaviour {
 
     public GameObject Physic;
 
+    private int m_PlayerID;
+
+    void Start()
+    {
+        m_PlayerID = GetComponent<Player>().m_PlayerID;
+    }
 
 	// Update is called once per frame
 	void Update () {
 
-        if (Input.GetButtonDown("A_0"))
+        if (Input.GetButtonDown("A_"+m_PlayerID.ToString()))
         {
+            Debug.Log("PlayerOne_Push");
             StartCoroutine(Push());
         }
     }
@@ -20,9 +27,9 @@ public class Player_Push : MonoBehaviour {
     IEnumerator Push()
     {
         
-        Physic.GetComponent<SphereCollider>().enabled = true;
+        Physic.GetComponent<BoxCollider>().enabled = true;
         yield return new WaitForSeconds(0.5f);
-        Physic.GetComponent<SphereCollider>().enabled = false;
+        Physic.GetComponent<BoxCollider>().enabled = false;
         yield return null;
     }
 

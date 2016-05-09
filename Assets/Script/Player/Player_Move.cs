@@ -3,47 +3,46 @@ using System.Collections;
 
 public class Player_Move : MonoBehaviour
 {
+    private int m_PlayerID;
 
     private bool IsMoving = false;      //Définit si le Player est en mouvement ou non
     private float Movement = 0.15f;      //Vitesse de déplacement du 
 
-    void Update()
+    void Start()
     {
-        if (Input.GetAxisRaw("L_YAxis_0") < -0.3) //&& IsMoving == false
-        {
-            StartCoroutine(UpMovement());
-        }
-        if (Input.GetAxisRaw("L_YAxis_0") > 0.3)
-        {
-            StartCoroutine(BackMovement());
-        }
-        if (Input.GetAxisRaw("L_XAxis_0") > 0.3)
+        m_PlayerID = GetComponent<Player>().m_PlayerID;
+    }
+
+    void Update()
+    { 
+        //Moving to the Right
+        if (Input.GetAxisRaw("L_XAxis_"+m_PlayerID.ToString()) > 0.3)
         {
             StartCoroutine(RightMovement());
         }
-        if (Input.GetAxisRaw("L_XAxis_0") < -0.3)
+        //Moving to the Left
+        if (Input.GetAxisRaw("L_XAxis_" + m_PlayerID.ToString()) < -0.3)
         {
             StartCoroutine(LeftMovement());
         }
+        //Jumping
+        if (Input.GetButtonDown("A_" + m_PlayerID.ToString()))
+        {
+            StartCoroutine(Jumping());
+        }
+
 
     }
 
     //A remplacer par un saut
-    IEnumerator UpMovement()
+    IEnumerator Jumping()
     {
-        IsMoving = true;
-        transform.position = (transform.position + (transform.up * Movement));
+        //Mettre un IsGrounded et réfléchir à comment le mettre avec les bloc pour que ça ne rentre pas en conflit lors des chocs. 
+        //Si le joueur touche un bloc pas par le dessus il meurt ou est poussé si il est en mouvement
+        //Si le joueur arrive sur un bloc par le dessus même en mouvement il ne meurt pas
         yield return null;
-        IsMoving = false;
     }
-    //A remplacer par la gravité
-    IEnumerator BackMovement()
-    {
-        IsMoving = true;
-        transform.position = transform.position - (transform.up * Movement);
-        yield return null;
-        IsMoving = false;
-    }
+
     IEnumerator RightMovement()
     {
         IsMoving = true;
