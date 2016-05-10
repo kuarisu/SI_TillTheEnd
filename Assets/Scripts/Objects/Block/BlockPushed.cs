@@ -11,16 +11,13 @@ public class BlockPushed : MonoBehaviour {
 
     void Start ()
     {
-        rb = GetComponent<Rigidbody>();
-        rb.useGravity = false;
+        //rb = GetComponent<Rigidbody>();
+        //rb.detectCollisions = false;
     }
 
     void Update ()
     {
-        if (rb.velocity == new Vector3 (0,0,0))
-        {
-            StopMove();
-        }
+       
     }
 
     void OnTriggerEnter(Collider col)
@@ -28,19 +25,22 @@ public class BlockPushed : MonoBehaviour {
       
         if (col.tag == "Player")
         {
-            GetComponent<Rigidbody>().useGravity = true;
+            rb.detectCollisions = true;
             //Use two points to make a vector and push the block in the opposite direction
             //Chnager le vector 3 en vector 2 x et y
             Vector3 _positionTarget = col.transform.position;
             Vector3 _direction = (transform.position - _positionTarget).normalized * ExplosionStrengh;
-            GetComponent<Rigidbody>().AddForce(_direction);
+            rb.AddForce(_direction);
+            StartCoroutine(StopMove());
 
         }
     }
 
-    void StopMove()
+    IEnumerator StopMove()
     {
-        rb.useGravity = false;
+        yield return new WaitForSeconds(3);
+        rb.detectCollisions = false;
+        yield return null;
     }
 
 }
