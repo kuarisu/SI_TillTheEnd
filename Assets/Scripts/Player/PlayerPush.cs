@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class Player_Push : MonoBehaviour {
+public class PlayerPush : MonoBehaviour {
 
     public GameObject Physic;
 
@@ -15,7 +15,7 @@ public class Player_Push : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 
-        if (Input.GetButtonDown("A_"+m_PlayerID.ToString()))
+        if (Input.GetButtonDown("B_"+m_PlayerID.ToString()))
         {
             Debug.Log("PlayerOne_Push");
             StartCoroutine(Push());
