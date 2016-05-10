@@ -31,9 +31,7 @@ public class PlayerJump : MonoBehaviour {
     //Saut Simple, Penser à ménager pour un saut double et aussi au wall jump
     IEnumerator Jumping()
     {
-        //Mettre un IsGrounded et réfléchir à comment le mettre avec les bloc pour que ça ne rentre pas en conflit lors des chocs. 
-        //Si le joueur touche un bloc pas par le dessus il meurt ou est poussé si il est en mouvement
-        //Si le joueur arrive sur un bloc par le dessus même en mouvement il ne meurt pas
+       //Sauter tout le temps, mais y a un compteur et si il tombe à 0 on ne peut plus sauter (donc pas de limitation de saut SEULEMENT quand isGrounded. A voir)
         if (m_PlayerIsGrounded == false)
         {
             Debug.Log("hello false");
