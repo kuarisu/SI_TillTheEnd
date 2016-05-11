@@ -7,6 +7,10 @@ public class PlayerGravity : MonoBehaviour {
     public bool m_IsGrounded = true;
     [HideInInspector]
     public bool m_OnBlock = false;
+    [HideInInspector]
+    public bool m_Gravity = true;
+    [HideInInspector]
+    public GameObject m_BlockTouched;
 
 
     private int m_GravityStrength = 10;
@@ -19,9 +23,6 @@ public class PlayerGravity : MonoBehaviour {
 
     void Update()
     {
-
-        Debug.Log("grounded" + m_IsGrounded);
-        Debug.Log("onblock" + m_OnBlock);
         RaycastHit hit;
         Ray groundingRay = new Ray(transform.position, Vector3.down);
             
@@ -32,7 +33,8 @@ public class PlayerGravity : MonoBehaviour {
                 m_IsGrounded = true;
                 if (hit.collider.tag == "BlockMove")
                 {
-                    m_OnBlock = true; //CE BOOL AUTORISE OU NON LE TARGETING DANS PLAYERTARGET ET LE PUSH AND PLAYERPUSH (Push, depuis le joueur ou sur le bloc ? ou Alors se lance sur le joueur et active le script du bloc ?)
+                    m_OnBlock = true; 
+                    m_BlockTouched = hit.collider.gameObject;
                 }
                 else
                 {
@@ -66,5 +68,7 @@ public class PlayerGravity : MonoBehaviour {
 
         
     }
+
+
 	
 }
