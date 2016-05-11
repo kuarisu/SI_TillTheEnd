@@ -16,7 +16,6 @@ public class PlayerJump : MonoBehaviour {
 
     void Update () {
 
-        Debug.Log(m_NbJumps);             
 
         //Jumping
         if (Input.GetButtonDown("A_" + m_PlayerID.ToString()))

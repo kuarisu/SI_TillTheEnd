@@ -33,7 +33,6 @@ public class PlayerGravity : MonoBehaviour {
 
     IEnumerator IsGrounded()
     {
-        Debug.Log(m_IsGrounded);
         while (true)
         {
             if (m_IsGrounded == true)
@@ -42,7 +41,6 @@ public class PlayerGravity : MonoBehaviour {
             }
             if (m_IsGrounded == false)
             {
-                Debug.Log("coucouw");
                 transform.Translate((-Vector3.up * m_GravityStrength) * Time.smoothDeltaTime);
             }
             yield return new WaitForEndOfFrame();
