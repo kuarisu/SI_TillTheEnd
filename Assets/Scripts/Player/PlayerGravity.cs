@@ -3,9 +3,15 @@ using System.Collections;
 
 public class PlayerGravity : MonoBehaviour {
 
+    [HideInInspector]
     public bool m_IsGrounded = true;
-    public int m_GravityStrength;
-    public float m_GroundingHeight;
+    [HideInInspector]
+    public bool m_OnBlock = false;
+
+
+    private int m_GravityStrength = 10;
+    private float m_GroundingHeight = 0.1f;
+
 
 	void Start () {
         StartCoroutine(IsGrounded());
@@ -13,18 +19,30 @@ public class PlayerGravity : MonoBehaviour {
 
     void Update()
     {
+
+        Debug.Log("grounded" + m_IsGrounded);
+        Debug.Log("onblock" + m_OnBlock);
         RaycastHit hit;
         Ray groundingRay = new Ray(transform.position, Vector3.down);
             
         if(Physics.Raycast(groundingRay, out hit, m_GroundingHeight))
         {
-            if(hit.collider.tag == "Floor" || hit.collider.tag == "Block")
+            if(hit.collider.tag == "Floor" || hit.collider.tag == "BlockStill" || hit.collider.tag == "BlockMove")
             {
                 m_IsGrounded = true;
+                if (hit.collider.tag == "BlockMove")
+                {
+                    m_OnBlock = true; //CE BOOL AUTORISE OU NON LE TARGETING DANS PLAYERTARGET ET LE PUSH AND PLAYERPUSH (Push, depuis le joueur ou sur le bloc ? ou Alors se lance sur le joueur et active le script du bloc ?)
+                }
+                else
+                {
+                    m_OnBlock = false;
+                }
             }
         }
         else
         {
+            m_OnBlock = false;
             m_IsGrounded = false;
         }
         

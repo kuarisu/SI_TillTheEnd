@@ -15,22 +15,10 @@ public class PlayerPush : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 
-        if (Input.GetButtonDown("B_"+m_PlayerID.ToString()))
+        if (Input.GetButtonDown("RB_"+m_PlayerID.ToString()))
         {
-            Debug.Log("PlayerOne_Push");
-            StartCoroutine(Push());
+
         }
-    }
-
-
-    //Enable a Trigger to active movement script of the cubes
-    IEnumerator Push()
-    {
-        
-        Physic.GetComponent<BoxCollider>().enabled = true;
-        yield return new WaitForSeconds(0.5f);
-        Physic.GetComponent<BoxCollider>().enabled = false;
-        yield return null;
     }
 
 }
