@@ -12,7 +12,7 @@ public class PlayerGravity : MonoBehaviour {
     [HideInInspector]
     public GameObject m_BlockTouched;
 
-
+    public RaycastHit hit;
     private int m_GravityStrength = 10;
     private float m_GroundingHeight = 0.1f;
 
@@ -23,7 +23,7 @@ public class PlayerGravity : MonoBehaviour {
 
     void Update()
     {
-        RaycastHit hit;
+        
         Ray groundingRay = new Ray(transform.position, Vector3.down);
             
         if(Physics.Raycast(groundingRay, out hit, m_GroundingHeight))
