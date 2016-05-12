@@ -19,6 +19,8 @@ public class PlayerPush : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 
+        Debug.Log(m_PlayerID);
+
         m_IsReSpwaning = GetComponent<PlayerDeath>().m_IsRespawning;
 
         if (Input.GetButtonDown("RB_"+m_PlayerID.ToString()) && m_playerGravity.m_OnBlock == true && m_IsReSpwaning == false && ((Input.GetAxis("R_XAxis_" + m_PlayerID.ToString()) != 0) || (Input.GetAxis("R_YAxis_" + m_PlayerID.ToString()) != 0)))

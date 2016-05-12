@@ -18,8 +18,8 @@ public class LevelSelect : MonoBehaviour {
     }
 
         public void SpawnLevel()
-    { 
-
+    {
+        Time.timeScale = 1;
 		if (ManagerSpawn.instance.m_NbPlayers == 2) {
 
 			_CurrentLevel = m_Level1v1 [Random.Range (0, m_Level1v1.Count)];

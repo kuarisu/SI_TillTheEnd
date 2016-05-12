@@ -10,7 +10,7 @@ public class PathCloche : MonoBehaviour {
 
     bool canTeleport = true;
 
-    public float spawningTime;
+    private float spawningTime = 10;
     public float distanceRaycast;
     public float refreshRateInSeconds;
 
