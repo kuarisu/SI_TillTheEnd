@@ -11,7 +11,7 @@ public class PlayerMove : MonoBehaviour
 
     void Start()
     {
-        m_PlayerID = GetComponent<Player>().m_PlayerID
+        m_PlayerID = GetComponent<Player>().m_PlayerID;
     }
 
     void Update()
