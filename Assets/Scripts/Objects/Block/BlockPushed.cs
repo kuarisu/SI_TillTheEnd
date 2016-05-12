@@ -8,7 +8,9 @@ public class BlockPushed : MonoBehaviour {
     private Rigidbody m_Rb;
     public int m_Timer = 5;
     private Vector3 m_direction;
+    public bool m_IsMoving = false;
 
+    public int m_NbBounce = 0;
     int bounceSpeed = 1;
     int bounceAmount = 2;
 
@@ -23,10 +25,13 @@ public class BlockPushed : MonoBehaviour {
     {
         if (transform.position != m_currentPosition)
         {
+            m_IsMoving = true;
             m_Rb.isKinematic = false;
         }
         if (transform.position == m_currentPosition)
         {
+            m_IsMoving = false;
+            m_NbBounce = 0;
             m_Rb.isKinematic = true;
         }
         m_currentPosition = transform.position;
@@ -54,12 +59,13 @@ public class BlockPushed : MonoBehaviour {
 
     void OnCollisionEnter(Collision col)
     {
+
         //Penser à utiliser un layer à part pour le perso plutôt que quinze mille tag
         if (col.gameObject.tag == "Floor" || col.gameObject.tag == "BlockStill" || col.gameObject.tag == "BlockMove")
         {
+            m_NbBounce++;
             Vector3 _colNormale = col.contacts[0].normal;
             float _AngleReflex = ((Vector3.Angle(m_direction, _colNormale)));
-            Debug.Log(_AngleReflex);
             m_direction = (Quaternion.Euler(0, 0, _AngleReflex) * m_direction);
 
         }

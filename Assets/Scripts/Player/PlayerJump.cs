@@ -7,6 +7,7 @@ public class PlayerJump : MonoBehaviour {
     private bool m_PlayerIsGrounded;
     private int m_NbJumps = 1;
     private float m_JumpSpeed = 35f;
+    public bool m_IsJumpingAnim = false;
 
     void Start()
     {
@@ -20,9 +21,10 @@ public class PlayerJump : MonoBehaviour {
         //Jumping
         if (Input.GetButtonDown("A_" + m_PlayerID.ToString()))
         {
-
-            StartCoroutine(Jumping());
+            m_IsJumpingAnim = true;
+           StartCoroutine(Jumping());
             JumpsCount();
+            m_IsJumpingAnim = false;
         }
         
         m_PlayerIsGrounded = GetComponent<PlayerGravity>().m_IsGrounded;

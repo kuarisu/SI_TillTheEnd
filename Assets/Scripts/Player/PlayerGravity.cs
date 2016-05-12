@@ -23,7 +23,6 @@ public class PlayerGravity : MonoBehaviour {
 
     void Update()
     {
-        
         Ray groundingRay = new Ray(transform.position, Vector3.down);
             
         if(Physics.Raycast(groundingRay, out hit, m_GroundingHeight))
