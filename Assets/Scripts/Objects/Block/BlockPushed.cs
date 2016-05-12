@@ -61,7 +61,7 @@ public class BlockPushed : MonoBehaviour {
     {
 
         //Penser à utiliser un layer à part pour le perso plutôt que quinze mille tag
-        if (col.gameObject.tag == "Floor" || col.gameObject.tag == "BlockStill" || col.gameObject.tag == "BlockMove")
+        if (col.gameObject.tag == "Floor" || col.gameObject.tag == "BlockStill" || col.gameObject.tag == "BlockMove" || col.gameObject.tag == "DeathZone")
         {
             m_NbBounce++;
             Vector3 _colNormale = col.contacts[0].normal;

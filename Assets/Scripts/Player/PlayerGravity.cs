@@ -14,7 +14,7 @@ public class PlayerGravity : MonoBehaviour {
 
     public RaycastHit hit;
     private int m_GravityStrength = 10;
-    private float m_GroundingHeight = 0.1f;
+    private float m_GroundingHeight = 0.12f;
 
 
 	void Start () {
@@ -22,12 +22,17 @@ public class PlayerGravity : MonoBehaviour {
 	}
 
     void Update()
+
     {
+        Debug.Log(m_IsGrounded);
         Ray groundingRay = new Ray(transform.position, Vector3.down);
-            
-        if(Physics.Raycast(groundingRay, out hit, m_GroundingHeight))
+        Debug.DrawRay(transform.position, Vector3.down);
+
+        if (Physics.Raycast(groundingRay, out hit, m_GroundingHeight))
         {
-            if(hit.collider.tag == "Floor" || hit.collider.tag == "BlockStill" || hit.collider.tag == "BlockMove")
+            Debug.Log("hi");
+
+            if (hit.collider.tag == "Floor" || hit.collider.tag == "BlockStill" || hit.collider.tag == "BlockMove")
             {
                 m_IsGrounded = true;
                 if (hit.collider.tag == "BlockMove")

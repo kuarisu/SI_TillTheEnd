@@ -37,7 +37,6 @@ public class PlayerDeath : MonoBehaviour {
         if (col.collider.gameObject.tag == "BlockMove")
         {
            m_IsMoving =  col.collider.gameObject.GetComponent<BlockPushed>().m_IsMoving;
-            //Debug.Log(col.collider.gameObject.GetComponent<BlockPushed>().m_NbBounce);
             if (m_IsMoving == true) 
             {
                 if (col.collider.gameObject.GetComponent<BlockPushed>().m_NbBounce == 0)
@@ -58,26 +57,34 @@ public class PlayerDeath : MonoBehaviour {
     void DeathZone()
     {
         Debug.Log("Died by deathzone");
-        ReSpawn();
+        StartCoroutine(ReSpawn());
     }
 
     void DeathBlock ()
     {
         Debug.Log("Died by deathBlock");
-        ReSpawn();
+        StartCoroutine(ReSpawn());
     }
 
     void DeathCrush()
     {
         Debug.Log("Died by crushed");
-        ReSpawn();
+        StartCoroutine(ReSpawn());
 
     }
 
     IEnumerator ReSpawn()
     {
+        Debug.Log("Died");
         m_IsRespawning = true;
-
+        Visual.SetActive(false);
+        Physics.SetActive(false);
+        yield return new WaitForSeconds(1);
+        Visual.SetActive(true);
+        Physics.SetActive(true);
+        transform.position = m_currentSpawn;
+        yield return new WaitForSeconds(1);
+        m_IsRespawning = false;
         yield return null;
     }
 }
