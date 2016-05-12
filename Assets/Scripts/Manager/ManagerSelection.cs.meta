@@ -1,0 +1,16 @@
+fileFormatVersion: 2
+guid: 3903e92903a1d3742b74b7bf360bdeb4
+timeCreated: 1463067795
+licenseType: Pro
+MonoImporter:
+  serializedVersion: 2
+  defaultReferences:
+  - PlayerOne: {fileID: 175660, guid: 97cf0228cb955724a90510cc192134fd, type: 2}
+  - PlayerTwo: {fileID: 175660, guid: acf0e9147c8d1dc4f8469e4967f2153d, type: 2}
+  - PlayerThree: {fileID: 175660, guid: 1d4f87cb8739961478165c6bb911a768, type: 2}
+  - PlayerFour: {fileID: 175660, guid: 592d952dd3de78146b6cca32f9cd8729, type: 2}
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
