@@ -24,11 +24,13 @@ public class PlayerLevitation : MonoBehaviour {
         if (Input.GetButtonDown("X_" + m_PlayerID.ToString()) && m_OnBlock == true && m_IsReSpwaning == false)
         {
             StartCoroutine(Levitation());
+          
         }
-        if (Input.GetButtonUp("X_" + m_PlayerID.ToString()) && m_OnBlock == true && m_IsReSpwaning == false)
+        if (Input.GetButtonDown("Y_" + m_PlayerID.ToString()) && m_OnBlock == true && m_IsReSpwaning == false)
         {
             StartCoroutine(EndLevitation());
         }
+
     }
 
     IEnumerator Levitation()
@@ -54,7 +56,7 @@ public class PlayerLevitation : MonoBehaviour {
     }
 
     IEnumerator EndLevitation()
-    {
+    { 
         m_Levitating = false;
         m_PlayerJump.enabled = true;
         Debug.Log("hll");

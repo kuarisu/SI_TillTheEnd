@@ -34,7 +34,7 @@ public class PlayerDeath : MonoBehaviour {
         {
             DeathZone();
         }
-        if (col.collider.gameObject.tag == "BlockMove")
+        if (col.collider.gameObject.tag == "BlockMove" && (col.collider.gameObject.GetComponent<BlockPushed>().IdBlock != m_PlayerID))
         {
            m_IsMoving =  col.collider.gameObject.GetComponent<BlockPushed>().m_IsMoving;
             if (m_IsMoving == true) 

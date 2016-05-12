@@ -21,10 +21,11 @@ public class PlayerPush : MonoBehaviour {
 
         m_IsReSpwaning = GetComponent<PlayerDeath>().m_IsRespawning;
 
-        if (Input.GetButtonDown("RB_"+m_PlayerID.ToString()) && m_playerGravity.m_OnBlock == true && m_IsReSpwaning == false && ((Input.GetAxis("R_XAxis_1") != 0) || (Input.GetAxis("R_YAxis_1") != 0)))
+        if (Input.GetButtonDown("RB_"+m_PlayerID.ToString()) && m_playerGravity.m_OnBlock == true && m_IsReSpwaning == false && ((Input.GetAxis("R_XAxis_" + m_PlayerID.ToString()) != 0) || (Input.GetAxis("R_YAxis_" + m_PlayerID.ToString()) != 0)))
         {
             m_playerGravity.m_BlockTouched.GetComponent<BlockPushed>().m_PlayerTarget = m_Target;
             m_IsPunching = true;
+            m_playerGravity.m_BlockTouched.GetComponent<BlockPushed>().IdBlock = m_PlayerID;
             m_playerGravity.m_BlockTouched.GetComponent<BlockPushed>().PushedCoroutine();
             m_IsPunching = false;
         }

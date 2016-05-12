@@ -13,6 +13,7 @@ public class BlockPushed : MonoBehaviour {
     public int m_NbBounce = 0;
     int bounceSpeed = 1;
     int bounceAmount = 2;
+    public int IdBlock;
 
     void Start()
     {
