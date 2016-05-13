@@ -39,15 +39,13 @@ public class PlayerDeath : MonoBehaviour {
            m_IsMoving =  col.collider.gameObject.GetComponent<BlockPushed>().m_IsMoving;
             if (m_IsMoving == true) 
             {
-                if (col.collider.gameObject.GetComponent<BlockPushed>().m_NbBounce == 0)
-                {
-                    DeathBlock();
-                }
+                DeathBlock();
+
                 //A RETRAVAILLER PARCE QUE CA MARCHE PAS (pas deux collision en même temps)
-                if (col.collider.gameObject.tag == "Floor")
-                {
-                    DeathCrush();
-                }
+                //if (col.collider.gameObject.tag == "Floor")
+                //{
+                //    DeathCrush();
+                //}
             }
 
         }
@@ -56,13 +54,11 @@ public class PlayerDeath : MonoBehaviour {
 
     void DeathZone()
     {
-        Debug.Log("Died by deathzone");
         StartCoroutine(ReSpawn());
     }
 
     void DeathBlock ()
     {
-        Debug.Log("Died by deathBlock");
         StartCoroutine(ReSpawn());
     }
 
@@ -75,7 +71,6 @@ public class PlayerDeath : MonoBehaviour {
 
     IEnumerator ReSpawn()
     {
-        Debug.Log("Died");
         m_IsRespawning = true;
         Visual.SetActive(false);
         Physics.SetActive(false);

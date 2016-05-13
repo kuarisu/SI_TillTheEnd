@@ -6,12 +6,14 @@ public class PlayerJump : MonoBehaviour {
     private int m_PlayerID;
     private bool m_PlayerIsGrounded;
     private int m_NbJumps = 1;
-    private float m_JumpSpeed = 35f;
+    private float m_JumpSpeed = 30f;
     public bool m_IsJumpingAnim = false;
+    private Rigidbody rb;
 
     void Start()
     {
         m_PlayerID = GetComponent<Player>().m_PlayerID;
+        rb = GetComponent<Rigidbody>();
        
     }
 
@@ -54,6 +56,7 @@ public class PlayerJump : MonoBehaviour {
             {
                 m_PlayerIsGrounded = true;
                 transform.Translate((Vector3.up * m_JumpSpeed) * Time.smoothDeltaTime) ;
+                //rb.MovePosition((transform.position + (transform.up * m_JumpSpeed)) * Time.sm);
                 yield return new WaitForEndOfFrame();
             }
 

@@ -13,8 +13,8 @@ public class PlayerGravity : MonoBehaviour {
     public GameObject m_BlockTouched;
 
     public RaycastHit hit;
-    private int m_GravityStrength = 10;
-    private float m_GroundingHeight = 0.25f;
+    private int m_GravityStrength = 20;
+    private float m_GroundingHeight = 0.5f;
 
 
 	void Start () {

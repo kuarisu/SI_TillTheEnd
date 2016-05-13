@@ -9,6 +9,7 @@ public class BlockPushed : MonoBehaviour {
     public int m_Timer = 5;
     private Vector3 m_direction;
     public bool m_IsMoving = false;
+    public bool m_Levitation = false;
 
     public int m_NbBounce = 0;
     int bounceSpeed = 1;
@@ -24,7 +25,7 @@ public class BlockPushed : MonoBehaviour {
 
     void Update ()
     {
-        if (transform.position != m_currentPosition)
+        if (transform.position != m_currentPosition && m_Levitation == false)
         {
             m_IsMoving = true;
             m_Rb.isKinematic = false;
