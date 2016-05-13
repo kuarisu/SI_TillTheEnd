@@ -8,7 +8,7 @@ public class PlayerJump : MonoBehaviour {
     private int m_PlayerID;
     private bool m_PlayerIsGrounded;
     private int m_NbJumps = 1;
-    private float m_JumpSpeed = 30f;
+    private float m_JumpSpeed = 35f;
     public bool m_IsJumpingAnim = false;
     private Rigidbody rb;
 
@@ -55,7 +55,7 @@ public class PlayerJump : MonoBehaviour {
         if (m_NbJumps > 0)
         {
 
-            int _time = 15;
+            int _time = 20;
             for (int i = 0; i < _time; i++)
             {
                 m_PlayerIsGrounded = true;

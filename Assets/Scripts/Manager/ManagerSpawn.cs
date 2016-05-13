@@ -7,14 +7,17 @@ public class ManagerSpawn : MonoBehaviour {
 
     public List<GameObject> m_Characters = new List<GameObject>();
     public GameObject m_CurrentLevel;
+
+    
     public int m_NbPlayers; //En fonction nb dans list quand start alors m_Nbplayer change ce qui change list scène
+
     public Vector3 m_SpawnPl1;
     public Vector3 m_SpawnPl2;
     public Vector3 m_SpawnPl3;
     public Vector3 m_SpawnPl4;
     //SELECTIONMANAGER SUR LA SCENE DE SELECTION QUI AJOUTE LES PREFAB DE PLAYER SU RLE GAMEMANAGER ET LUI IL LES GARDENT SU RLA SCENE DE JEU LAWL
 
-
+    
     void Awake()
     {
         if (instance == null)
@@ -28,14 +31,13 @@ public class ManagerSpawn : MonoBehaviour {
     }
 
 
-
-    void SelectionChara()
+    void Update()
     {
-        if (m_Characters[1] != null && m_Characters[2] == null)
+        if (m_Characters[1] != null)
         {
             m_NbPlayers = 2;
         }
-        if (m_Characters[2] != null && m_Characters[3] == null)
+        if (m_Characters[2] != null)
         {
             m_NbPlayers = 3;
         }

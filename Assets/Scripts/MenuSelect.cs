@@ -4,6 +4,7 @@ using UnityEngine.SceneManagement;
 
 public class MenuSelect : MonoBehaviour {
 
+    //public GameObject SelectionPlayer;
 	public GameObject Selection;
 	public GameObject CreditImage;
 	public bool Startable = false;
@@ -11,28 +12,28 @@ public class MenuSelect : MonoBehaviour {
 
 	public void SelectionScreen() {
 
-		Selection.SetActive (true);
-		Startable = true;
-	}
+        SceneManager.LoadScene("SelectionCharaScene");
+        //Startable = true;
+    }
 
 	public void ShowImage() {
 
 		CreditImage.SetActive (true);
 	}
 
-	public void Update() {
+    public void Update() {
 
-		if(Input.GetButton("B_1")) {
-			CreditImage.SetActive (false);
-		}
+        if (Input.GetButton("B_1")) {
+            CreditImage.SetActive(false);
+        }
 
-		if(Startable == true){
-			if (Input.GetButton ("Start_1")) {
-				Debug.Log ("Chat marche vraiment");
-				SceneManager.LoadScene (Level);
-			}
-		}
-	}
+        //	if(Startable == true){
+        //		if (Input.GetButton ("Start_1")) {
+        //               LOAD LEVEL
+        //		}
+        //	}
+        //}
+    }
 
 	public void Sortir (){
 

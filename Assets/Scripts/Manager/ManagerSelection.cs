@@ -1,5 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
+using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class ManagerSelection : MonoBehaviour {
 
@@ -7,6 +9,11 @@ public class ManagerSelection : MonoBehaviour {
     public GameObject PlayerTwo;
     public GameObject PlayerThree;
     public GameObject PlayerFour;
+
+    public Image Pl_One;
+    public Image Pl_Two;
+    public Image Pl_Three;
+    public Image Pl_Four;
 
     public bool m_Slectionning = true;
     bool m_CanAdd_1 = true;
@@ -21,11 +28,13 @@ public class ManagerSelection : MonoBehaviour {
         {
             ManagerSpawn.instance.m_Characters.Insert(0, PlayerOne);
             m_CanAdd_1 = false;
+            Pl_One.enabled = true;
         }
         if (m_Slectionning == true && Input.GetButtonDown("B_1") && m_CanAdd_1 == false)
         {
             ManagerSpawn.instance.m_Characters.RemoveAt(0);
             m_CanAdd_1 = true;
+            Pl_One.enabled = false;
         }
 
         //Select and deselect player 2
@@ -33,11 +42,13 @@ public class ManagerSelection : MonoBehaviour {
         {
             ManagerSpawn.instance.m_Characters.Insert(1, PlayerTwo);
             m_CanAdd_2 = false;
+            Pl_Two.enabled = true;
         }
         if (m_Slectionning == true && Input.GetButtonDown("B_2") && m_CanAdd_2 == false)
         {
             ManagerSpawn.instance.m_Characters.RemoveAt(1);
             m_CanAdd_2 = true;
+            Pl_Two.enabled = false;
         }
 
         //Select and deselect player 3
@@ -45,11 +56,15 @@ public class ManagerSelection : MonoBehaviour {
         {
             ManagerSpawn.instance.m_Characters.Insert(2, PlayerThree);
             m_CanAdd_3 = false;
+            Pl_Three.enabled = true;
         }
         if (m_Slectionning == true && Input.GetButtonDown("B_3") && m_CanAdd_3 == false)
         {
             ManagerSpawn.instance.m_Characters.RemoveAt(2);
             m_CanAdd_3 = true;
+            Pl_Three.enabled = false;
+
+
         }
 
         //Select and deselect player 3
@@ -57,11 +72,20 @@ public class ManagerSelection : MonoBehaviour {
         {
             ManagerSpawn.instance.m_Characters.Insert(3, PlayerFour);
             m_CanAdd_4 = false;
+            Pl_Four.enabled = true;
+
         }
         if (m_Slectionning == true && Input.GetButtonDown("B_4") && m_CanAdd_4 == false)
         {
             ManagerSpawn.instance.m_Characters.RemoveAt(3);
             m_CanAdd_4 = true;
+            Pl_Four.enabled = false;
+
+        }
+
+        if (Input.GetButtonDown("Start_1") && ManagerSpawn.instance.m_NbPlayers >= 2)
+        {
+            SceneManager.LoadScene("GameScene");
         }
     }
 
