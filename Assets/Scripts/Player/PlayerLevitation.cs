@@ -2,6 +2,9 @@
 using System.Collections;
 
 public class PlayerLevitation : MonoBehaviour {
+
+    public Animator m_An;
+
     private int m_PlayerID;
     private bool m_OnBlock;
     private RaycastHit hit;
@@ -54,6 +57,7 @@ public class PlayerLevitation : MonoBehaviour {
         hit.transform.parent = this.transform;
         while(m_Levitating == true)
         {
+            m_An.SetBool("Levitation", true);
             if (Input.GetAxisRaw("L_YAxis_" + m_PlayerID.ToString()) > 0.3)
             {
                 //transform.position = transform.position - (transform.up * m_Movement);
@@ -71,7 +75,8 @@ public class PlayerLevitation : MonoBehaviour {
     }
 
     IEnumerator EndLevitation()
-    { 
+    {
+        m_An.SetBool("Levitation", false);
         m_Levitating = false;
         m_PlayerJump.enabled = true;
         transform.GetChild(3).GetComponent<BlockPushed>().m_Levitation = false;

@@ -8,10 +8,12 @@ public class FollowClocheMaster : MonoBehaviour {
 
     public float smoothTime = 0.5f;
     Vector3 vel;
+    Vector3 currentpos;
 
     // Use this for initialization
     void Start()
     {
+        currentpos = transform.position;
 
         if (target != null)
         {
@@ -27,6 +29,10 @@ public class FollowClocheMaster : MonoBehaviour {
     // Update is called once per frame
     void LateUpdate()
     {
+        if (transform.position.z != currentpos.z)
+        {
+            transform.position = new Vector3(transform.position.x,transform.position.y, currentpos.z);
+        }
 
         if (target != null)
         {

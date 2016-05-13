@@ -3,6 +3,8 @@ using System.Collections;
 
 public class PlayerJump : MonoBehaviour {
 
+    public Animator m_An;
+
     private int m_PlayerID;
     private bool m_PlayerIsGrounded;
     private int m_NbJumps = 1;
@@ -24,7 +26,9 @@ public class PlayerJump : MonoBehaviour {
         if (Input.GetButtonDown("A_" + m_PlayerID.ToString()))
         {
             m_IsJumpingAnim = true;
+            m_An.SetBool(" m_IsJumpingAnim", true);
            StartCoroutine(Jumping());
+            StartCoroutine(StopAnim());
             JumpsCount();
             m_IsJumpingAnim = false;
         }
@@ -63,6 +67,12 @@ public class PlayerJump : MonoBehaviour {
         }
 
         yield return null;
+    }
+
+    IEnumerator StopAnim()
+    {
+        yield return new WaitForSeconds(0.5f);
+        m_An.SetBool(" m_IsJumpingAnim", false);
     }
 }
 
