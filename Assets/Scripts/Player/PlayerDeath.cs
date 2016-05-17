@@ -4,28 +4,42 @@ using System.Collections;
 public class PlayerDeath : MonoBehaviour {
 
     bool m_IsMoving;
-    Vector3 m_Spawn;
     private int m_PlayerID;
     private Vector3 m_currentSpawn;
     public bool m_IsRespawning;
     public GameObject Visual;
     public GameObject Physics;
 
+    /*
+    [SerializeField]
+    int m_Test;
+    public int GetTest()
+    {
+        return m_Test;
+    }
+
+    public void SetTest(string _function, int a)
+    {
+        if (a > 0)
+        {
+            if (a + 150 < 250)
+            {
+                m_Test = a;
+            }
+        }
+    }
+
+    void Method()
+    {
+        SetTest("Method", 10);
+    }
+    */
+
     void Start()
     {
         m_PlayerID = GetComponent<Player>().m_PlayerID;
+        m_currentSpawn = GetComponent<Player>().m_SpawnPoint;
 
-        if (m_PlayerID == 1)
-            m_currentSpawn = ManagerSpawn.instance.m_SpawnPl1;
-
-        if (m_PlayerID == 2)
-            m_currentSpawn = ManagerSpawn.instance.m_SpawnPl2;
-
-        if (m_PlayerID == 3)
-            m_currentSpawn = ManagerSpawn.instance.m_SpawnPl3;
-
-        if (m_PlayerID == 4)
-            m_currentSpawn = ManagerSpawn.instance.m_SpawnPl4;
     }
 
     void OnCollisionEnter (Collision col)

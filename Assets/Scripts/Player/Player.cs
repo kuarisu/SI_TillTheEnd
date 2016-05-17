@@ -4,6 +4,13 @@ using System.Collections;
 public class Player : MonoBehaviour {
 
     public int m_PlayerID;
+    public Vector3 m_SpawnPoint;
+
+
+    void Start()
+    {
+        m_SpawnPoint = transform.position;
+    }
 
     void Update()
     {

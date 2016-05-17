@@ -27,7 +27,7 @@ public class PlayerJump : MonoBehaviour {
         {
             m_IsJumpingAnim = true;
             m_An.SetBool(" m_IsJumpingAnim", true);
-           StartCoroutine(Jumping());
+            StartCoroutine(Jumping());
             StartCoroutine(StopAnim());
             JumpsCount();
             m_IsJumpingAnim = false;
@@ -59,7 +59,7 @@ public class PlayerJump : MonoBehaviour {
             for (int i = 0; i < _time; i++)
             {
                 m_PlayerIsGrounded = true;
-                transform.Translate((Vector3.up * m_JumpSpeed) * Time.smoothDeltaTime) ;
+                transform.Translate((Vector3.up * m_JumpSpeed) * Time.deltaTime) ;
                 //rb.MovePosition((transform.position + (transform.up * m_JumpSpeed)) * Time.sm);
                 yield return new WaitForEndOfFrame();
             }

@@ -77,14 +77,12 @@ public class PathCloche : MonoBehaviour {
                 //newX = newX * 2;
                 //newY = newY * 2;
                 WallCollide();
-                Debug.Log("Chemin obstrué");
                 yield return null;
             }
         }
         else //se déclenche s'il n'y a rien
         {
             MoveToPosition();
-            Debug.Log("Rien par ici mon capitaine!");
             yield return null;
         }
     }

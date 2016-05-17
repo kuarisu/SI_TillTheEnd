@@ -5,11 +5,6 @@ using UnityEngine.SceneManagement;
 
 public class ManagerSelection : MonoBehaviour {
 
-    public GameObject PlayerOne;
-    public GameObject PlayerTwo;
-    public GameObject PlayerThree;
-    public GameObject PlayerFour;
-
     public Image Pl_One;
     public Image Pl_Two;
     public Image Pl_Three;
@@ -26,13 +21,13 @@ public class ManagerSelection : MonoBehaviour {
         //Select and deselect player 1
         if (m_Slectionning == true && Input.GetButtonDown("A_1") && m_CanAdd_1 == true)
         {
-            ManagerSpawn.instance.m_Characters.Insert(0, PlayerOne);
+            ManagerSpawn.instance.m_NbPlayers++;
             m_CanAdd_1 = false;
             Pl_One.enabled = true;
         }
         if (m_Slectionning == true && Input.GetButtonDown("B_1") && m_CanAdd_1 == false)
         {
-            ManagerSpawn.instance.m_Characters.RemoveAt(0);
+            ManagerSpawn.instance.m_NbPlayers--;
             m_CanAdd_1 = true;
             Pl_One.enabled = false;
         }
@@ -40,13 +35,13 @@ public class ManagerSelection : MonoBehaviour {
         //Select and deselect player 2
         if (m_Slectionning == true && Input.GetButtonDown("A_2") && m_CanAdd_2 == true)
         {
-            ManagerSpawn.instance.m_Characters.Insert(1, PlayerTwo);
+            ManagerSpawn.instance.m_NbPlayers++; ;
             m_CanAdd_2 = false;
             Pl_Two.enabled = true;
         }
         if (m_Slectionning == true && Input.GetButtonDown("B_2") && m_CanAdd_2 == false)
         {
-            ManagerSpawn.instance.m_Characters.RemoveAt(1);
+            ManagerSpawn.instance.m_NbPlayers--;
             m_CanAdd_2 = true;
             Pl_Two.enabled = false;
         }
@@ -54,13 +49,13 @@ public class ManagerSelection : MonoBehaviour {
         //Select and deselect player 3
         if (m_Slectionning == true && Input.GetButtonDown("A_3") && m_CanAdd_3 == true)
         {
-            ManagerSpawn.instance.m_Characters.Insert(2, PlayerThree);
+            ManagerSpawn.instance.m_NbPlayers++;
             m_CanAdd_3 = false;
             Pl_Three.enabled = true;
         }
         if (m_Slectionning == true && Input.GetButtonDown("B_3") && m_CanAdd_3 == false)
         {
-            ManagerSpawn.instance.m_Characters.RemoveAt(2);
+            ManagerSpawn.instance.m_NbPlayers--;
             m_CanAdd_3 = true;
             Pl_Three.enabled = false;
 
@@ -70,20 +65,20 @@ public class ManagerSelection : MonoBehaviour {
         //Select and deselect player 3
         if (m_Slectionning == true && Input.GetButtonDown("A_4") && m_CanAdd_4 == true)
         {
-            ManagerSpawn.instance.m_Characters.Insert(3, PlayerFour);
+            ManagerSpawn.instance.m_NbPlayers++;
             m_CanAdd_4 = false;
             Pl_Four.enabled = true;
 
         }
         if (m_Slectionning == true && Input.GetButtonDown("B_4") && m_CanAdd_4 == false)
         {
-            ManagerSpawn.instance.m_Characters.RemoveAt(3);
+            ManagerSpawn.instance.m_NbPlayers--;
             m_CanAdd_4 = true;
             Pl_Four.enabled = false;
 
         }
 
-        if (Input.GetButtonDown("Start_1") && ManagerSpawn.instance.m_NbPlayers >= 2)
+        if (Input.GetButtonDown("Start_1") && ManagerSpawn.instance.m_NbPlayers > 1)
         {
             SceneManager.LoadScene("GameScene");
         }
