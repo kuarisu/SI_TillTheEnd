@@ -4,28 +4,42 @@ using System.Collections;
 public class PlayerDeath : MonoBehaviour {
 
     bool m_IsMoving;
-    Vector3 m_Spawn;
     private int m_PlayerID;
     private Vector3 m_currentSpawn;
     public bool m_IsRespawning;
     public GameObject Visual;
     public GameObject Physics;
 
+    /*
+    [SerializeField]
+    int m_Test;
+    public int GetTest()
+    {
+        return m_Test;
+    }
+
+    public void SetTest(string _function, int a)
+    {
+        if (a > 0)
+        {
+            if (a + 150 < 250)
+            {
+                m_Test = a;
+            }
+        }
+    }
+
+    void Method()
+    {
+        SetTest("Method", 10);
+    }
+    */
+
     void Start()
     {
         m_PlayerID = GetComponent<Player>().m_PlayerID;
+        m_currentSpawn = GetComponent<Player>().m_SpawnPoint;
 
-        if (m_PlayerID == 1)
-            m_currentSpawn = ManagerSpawn.instance.m_SpawnPl1;
-
-        if (m_PlayerID == 2)
-            m_currentSpawn = ManagerSpawn.instance.m_SpawnPl2;
-
-        if (m_PlayerID == 3)
-            m_currentSpawn = ManagerSpawn.instance.m_SpawnPl3;
-
-        if (m_PlayerID == 4)
-            m_currentSpawn = ManagerSpawn.instance.m_SpawnPl4;
     }
 
     void OnCollisionEnter (Collision col)
@@ -34,21 +48,18 @@ public class PlayerDeath : MonoBehaviour {
         {
             DeathZone();
         }
-        if (col.collider.gameObject.tag == "BlockMove")
+        if (col.collider.gameObject.tag == "BlockMove" && (col.collider.gameObject.GetComponent<BlockPushed>().IdBlock != m_PlayerID))
         {
            m_IsMoving =  col.collider.gameObject.GetComponent<BlockPushed>().m_IsMoving;
-            //Debug.Log(col.collider.gameObject.GetComponent<BlockPushed>().m_NbBounce);
             if (m_IsMoving == true) 
             {
-                if (col.collider.gameObject.GetComponent<BlockPushed>().m_NbBounce == 0)
-                {
-                    DeathBlock();
-                }
+                DeathBlock();
+
                 //A RETRAVAILLER PARCE QUE CA MARCHE PAS (pas deux collision en même temps)
-                if (col.collider.gameObject.tag == "Floor")
-                {
-                    DeathCrush();
-                }
+                //if (col.collider.gameObject.tag == "Floor")
+                //{
+                //    DeathCrush();
+                //}
             }
 
         }
@@ -57,27 +68,32 @@ public class PlayerDeath : MonoBehaviour {
 
     void DeathZone()
     {
-        Debug.Log("Died by deathzone");
-        ReSpawn();
+        StartCoroutine(ReSpawn());
     }
 
     void DeathBlock ()
     {
-        Debug.Log("Died by deathBlock");
-        ReSpawn();
+        StartCoroutine(ReSpawn());
     }
 
     void DeathCrush()
     {
         Debug.Log("Died by crushed");
-        ReSpawn();
+        StartCoroutine(ReSpawn());
 
     }
 
     IEnumerator ReSpawn()
     {
         m_IsRespawning = true;
-
+        Visual.SetActive(false);
+        Physics.SetActive(false);
+        yield return new WaitForSeconds(1);
+        Visual.SetActive(true);
+        Physics.SetActive(true);
+        transform.position = m_currentSpawn;
+        yield return new WaitForSeconds(1);
+        m_IsRespawning = false;
         yield return null;
     }
 }

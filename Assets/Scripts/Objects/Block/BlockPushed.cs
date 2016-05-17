@@ -9,10 +9,12 @@ public class BlockPushed : MonoBehaviour {
     public int m_Timer = 5;
     private Vector3 m_direction;
     public bool m_IsMoving = false;
+    public bool m_Levitation = false;
 
     public int m_NbBounce = 0;
     int bounceSpeed = 1;
     int bounceAmount = 2;
+    public int IdBlock;
 
     void Start()
     {
@@ -23,7 +25,7 @@ public class BlockPushed : MonoBehaviour {
 
     void Update ()
     {
-        if (transform.position != m_currentPosition)
+        if (transform.position != m_currentPosition && m_Levitation == false)
         {
             m_IsMoving = true;
             m_Rb.isKinematic = false;
@@ -61,7 +63,7 @@ public class BlockPushed : MonoBehaviour {
     {
 
         //Penser à utiliser un layer à part pour le perso plutôt que quinze mille tag
-        if (col.gameObject.tag == "Floor" || col.gameObject.tag == "BlockStill" || col.gameObject.tag == "BlockMove")
+        if (col.gameObject.tag == "Floor" || col.gameObject.tag == "BlockStill" || col.gameObject.tag == "BlockMove" || col.gameObject.tag == "DeathZone")
         {
             m_NbBounce++;
             Vector3 _colNormale = col.contacts[0].normal;

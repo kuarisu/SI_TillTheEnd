@@ -3,7 +3,8 @@ using System.Collections;
 
 public class PlayerPush : MonoBehaviour {
 
-    public GameObject Physic;
+    public GameObject m_Target;
+    public Animator m_An;
 
     private int m_PlayerID;
     private PlayerGravity m_playerGravity;
@@ -20,13 +21,22 @@ public class PlayerPush : MonoBehaviour {
 	void Update () {
 
         m_IsReSpwaning = GetComponent<PlayerDeath>().m_IsRespawning;
-
-        if (Input.GetButtonDown("RB_"+m_PlayerID.ToString()) && m_playerGravity.m_OnBlock == true && m_IsReSpwaning == false && ((Input.GetAxis("R_XAxis_1") != 0) || (Input.GetAxis("R_YAxis_1") != 0)))
+        if (Input.GetButtonDown("RB_"+m_PlayerID.ToString()) && m_playerGravity.m_OnBlock == true && m_IsReSpwaning == false && ((Input.GetAxis("R_XAxis_" + m_PlayerID.ToString()) != 0) || (Input.GetAxis("R_YAxis_" + m_PlayerID.ToString()) != 0)))
         {
+            m_An.SetBool("m_IsPunching", true);
+            m_playerGravity.m_BlockTouched.GetComponent<BlockPushed>().m_PlayerTarget = m_Target;
             m_IsPunching = true;
+            m_playerGravity.m_BlockTouched.GetComponent<BlockPushed>().IdBlock = m_PlayerID;
             m_playerGravity.m_BlockTouched.GetComponent<BlockPushed>().PushedCoroutine();
             m_IsPunching = false;
+            StartCoroutine(StopAnim());
         }
+    }
+
+    IEnumerator StopAnim()
+    {
+        yield return new WaitForSeconds(0.5f);
+        m_An.SetBool("m_IsPunching", false);
     }
 
 }

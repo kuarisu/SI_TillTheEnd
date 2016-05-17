@@ -4,7 +4,8 @@ using System.Collections.Generic;
 
 public class LevelSelect : MonoBehaviour {
 
-	public List<GameObject> m_Level1v1 = new List<GameObject>();
+    public static LevelSelect instance = null;
+    public List<GameObject> m_Level1v1 = new List<GameObject>();
 	public List<GameObject> m_Level1v1v1 = new List<GameObject>();
 	public List<GameObject> m_Level1v1v1v1 = new List<GameObject>();
     public GameObject _CurrentLevel;
@@ -16,11 +17,9 @@ public class LevelSelect : MonoBehaviour {
         SpawnLevel();
     }
 
-
-
-        void SpawnLevel()
-    { 
-
+        public void SpawnLevel()
+    {
+        Time.timeScale = 1;
 		if (ManagerSpawn.instance.m_NbPlayers == 2) {
 
 			_CurrentLevel = m_Level1v1 [Random.Range (0, m_Level1v1.Count)];

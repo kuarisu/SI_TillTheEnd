@@ -5,9 +5,14 @@ public class ManagerSpawn : MonoBehaviour {
 
     public static ManagerSpawn instance = null;
 
-    public List<GameObject> m_Characters = new List<GameObject>();
     public GameObject m_CurrentLevel;
+
+    [SerializeField]
+    List<GameObject> m_PlayersList = new List<GameObject>();
+
+
     public int m_NbPlayers; //En fonction nb dans list quand start alors m_Nbplayer change ce qui change list scène
+
     public Vector3 m_SpawnPl1;
     public Vector3 m_SpawnPl2;
     public Vector3 m_SpawnPl3;
@@ -27,76 +32,15 @@ public class ManagerSpawn : MonoBehaviour {
 
     }
 
-
-
-    void SelectionChara()
-    {
-        if (m_Characters[1] != null && m_Characters[2] == null)
-        {
-            m_NbPlayers = 2;
-        }
-        if (m_Characters[2] != null && m_Characters[3] == null)
-        {
-            m_NbPlayers = 3;
-        }
-        if (m_Characters[3] != null)
-        {
-            m_NbPlayers = 4;
-        }
-    }
-
-
     public void SpawnChara()
     {
-        #region TwoPlayers
-        if (m_NbPlayers == 2)
+        if (m_NbPlayers > 1)
         {
-            Instantiate((GameObject)m_Characters[0]);
-            m_SpawnPl1 = m_CurrentLevel.GetComponent<ArenaSpawner>().m_ListSpawner[0].transform.position;
-            m_Characters[0].transform.position = m_SpawnPl1;
-
-            Instantiate((GameObject)m_Characters[1]);
-            m_SpawnPl2 = m_CurrentLevel.GetComponent<ArenaSpawner>().m_ListSpawner[1].transform.position;
-            m_Characters[1].transform.position = m_SpawnPl1;
+            for (int i = 0; i < m_NbPlayers; i++)
+            {
+                Vector3 _spawnPos = m_CurrentLevel.GetComponent<ArenaSpawner>().m_ListSpawner[i].transform.localPosition;
+                GameObject _playerInst = (GameObject)Instantiate(m_PlayersList[i], _spawnPos, Quaternion.identity);
+            }
         }
-        #endregion
-
-        #region ThreePlayers
-        if (m_NbPlayers == 3)
-        {
-            Instantiate((GameObject)m_Characters[0]);
-            m_SpawnPl1 = m_CurrentLevel.GetComponent<ArenaSpawner>().m_ListSpawner[0].transform.position;
-            m_Characters[0].transform.position = m_SpawnPl1;
-
-            Instantiate((GameObject)m_Characters[1]);
-            m_SpawnPl2 = m_CurrentLevel.GetComponent<ArenaSpawner>().m_ListSpawner[1].transform.position;
-            m_Characters[1].transform.position = m_SpawnPl1;
-
-            Instantiate((GameObject)m_Characters[2]);
-            m_SpawnPl3 = m_CurrentLevel.GetComponent<ArenaSpawner>().m_ListSpawner[2].transform.position;
-            m_Characters[2].transform.position = m_SpawnPl3;
-        }
-        #endregion
-
-        #region FourPlayers
-        if (m_NbPlayers == 4)
-        {
-            Instantiate((GameObject)m_Characters[0]);
-            m_SpawnPl1 = m_CurrentLevel.GetComponent<ArenaSpawner>().m_ListSpawner[0].transform.position;
-            m_Characters[0].transform.position = m_SpawnPl1;
-
-            Instantiate((GameObject)m_Characters[1]);
-            m_SpawnPl2 = m_CurrentLevel.GetComponent<ArenaSpawner>().m_ListSpawner[1].transform.position;
-            m_Characters[1].transform.position = m_SpawnPl1;
-
-            Instantiate((GameObject)m_Characters[2]);
-            m_SpawnPl3 = m_CurrentLevel.GetComponent<ArenaSpawner>().m_ListSpawner[2].transform.position;
-            m_Characters[2].transform.position = m_SpawnPl3;
-
-            Instantiate((GameObject)m_Characters[3]);
-            m_SpawnPl4 =  m_CurrentLevel.GetComponent<ArenaSpawner>().m_ListSpawner[3].transform.position;
-            m_Characters[3].transform.position = m_SpawnPl4;
-        }
-        #endregion
     }
 }

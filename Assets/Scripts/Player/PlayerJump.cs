@@ -3,15 +3,19 @@ using System.Collections;
 
 public class PlayerJump : MonoBehaviour {
 
+    public Animator m_An;
+
     private int m_PlayerID;
     private bool m_PlayerIsGrounded;
     private int m_NbJumps = 1;
     private float m_JumpSpeed = 35f;
     public bool m_IsJumpingAnim = false;
+    private Rigidbody rb;
 
     void Start()
     {
         m_PlayerID = GetComponent<Player>().m_PlayerID;
+        rb = GetComponent<Rigidbody>();
        
     }
 
@@ -22,7 +26,9 @@ public class PlayerJump : MonoBehaviour {
         if (Input.GetButtonDown("A_" + m_PlayerID.ToString()))
         {
             m_IsJumpingAnim = true;
-           StartCoroutine(Jumping());
+            m_An.SetBool(" m_IsJumpingAnim", true);
+            StartCoroutine(Jumping());
+            StartCoroutine(StopAnim());
             JumpsCount();
             m_IsJumpingAnim = false;
         }
@@ -49,17 +55,24 @@ public class PlayerJump : MonoBehaviour {
         if (m_NbJumps > 0)
         {
 
-            int _time = 15;
+            int _time = 20;
             for (int i = 0; i < _time; i++)
             {
                 m_PlayerIsGrounded = true;
-                transform.Translate((Vector3.up * m_JumpSpeed) * Time.smoothDeltaTime) ;
+                transform.Translate((Vector3.up * m_JumpSpeed) * Time.deltaTime) ;
+                //rb.MovePosition((transform.position + (transform.up * m_JumpSpeed)) * Time.sm);
                 yield return new WaitForEndOfFrame();
             }
 
         }
 
         yield return null;
+    }
+
+    IEnumerator StopAnim()
+    {
+        yield return new WaitForSeconds(0.5f);
+        m_An.SetBool(" m_IsJumpingAnim", false);
     }
 }
 
