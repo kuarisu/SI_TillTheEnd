@@ -9,6 +9,7 @@ public class PlayerDeath : MonoBehaviour {
     public bool m_IsRespawning;
     public GameObject Visual;
     public GameObject Physics;
+    public GameObject m_PSDeath;
 
     /*
     [SerializeField]
@@ -38,22 +39,21 @@ public class PlayerDeath : MonoBehaviour {
     void Start()
     {
         m_PlayerID = GetComponent<Player>().m_PlayerID;
-        m_currentSpawn = GetComponent<Player>().m_SpawnPoint;
-
+        m_currentSpawn = GetComponent<Player>().m_SpawnPoint;       
     }
 
     void OnCollisionEnter (Collision col)
     {
         if(col.collider.gameObject.tag == "DeathZone")
         {
-            DeathZone();
+            Death();
         }
         if (col.collider.gameObject.tag == "BlockMove" && (col.collider.gameObject.GetComponent<BlockPushed>().IdBlock != m_PlayerID))
         {
            m_IsMoving =  col.collider.gameObject.GetComponent<BlockPushed>().m_IsMoving;
             if (m_IsMoving == true) 
             {
-                DeathBlock();
+                Death();
 
                 //A RETRAVAILLER PARCE QUE CA MARCHE PAS (pas deux collision en même temps)
                 //if (col.collider.gameObject.tag == "Floor")
@@ -66,29 +66,19 @@ public class PlayerDeath : MonoBehaviour {
 
     }
 
-    void DeathZone()
+    void Death()
     {
         StartCoroutine(ReSpawn());
-    }
-
-    void DeathBlock ()
-    {
-        StartCoroutine(ReSpawn());
-    }
-
-    void DeathCrush()
-    {
-        Debug.Log("Died by crushed");
-        StartCoroutine(ReSpawn());
-
     }
 
     IEnumerator ReSpawn()
     {
         m_IsRespawning = true;
+        m_PSDeath.SetActive(true);
         Visual.SetActive(false);
         Physics.SetActive(false);
         yield return new WaitForSeconds(1);
+        m_PSDeath.SetActive(false);
         Visual.SetActive(true);
         Physics.SetActive(true);
         transform.position = m_currentSpawn;
