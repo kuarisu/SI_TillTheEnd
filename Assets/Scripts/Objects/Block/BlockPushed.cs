@@ -11,9 +11,8 @@ public class BlockPushed : MonoBehaviour {
     public bool m_IsMoving = false;
     public bool m_Levitation = false;
 
-    public int m_NbBounce = 0;
-    int bounceSpeed = 1;
-    int bounceAmount = 2;
+    float _bounceSpeed = 0.4f;
+ 
     public int IdBlock;
 
     void Start()
@@ -33,7 +32,6 @@ public class BlockPushed : MonoBehaviour {
         if (transform.position == m_currentPosition)
         {
             m_IsMoving = false;
-            m_NbBounce = 0;
             m_Rb.isKinematic = true;
         }
         m_currentPosition = transform.position;
@@ -44,7 +42,7 @@ public class BlockPushed : MonoBehaviour {
     {
         StartCoroutine(Pushed());
         Vector3 _positionTarget = m_PlayerTarget.transform.position;
-        m_direction = (_positionTarget - transform.position).normalized * 0.4f;
+        m_direction = (_positionTarget - transform.position).normalized * _bounceSpeed;
     }
 
     private IEnumerator Pushed()
@@ -65,7 +63,6 @@ public class BlockPushed : MonoBehaviour {
         //Penser à utiliser un layer à part pour le perso plutôt que quinze mille tag
         if (col.gameObject.tag == "Floor" || col.gameObject.tag == "BlockStill" || col.gameObject.tag == "BlockMove" || col.gameObject.tag == "DeathZone")
         {
-            m_NbBounce++;
             Vector3 _colNormale = col.contacts[0].normal;
             float _AngleReflex = ((Vector3.Angle(m_direction, _colNormale)));
             m_direction = (Quaternion.Euler(0, 0, _AngleReflex) * m_direction);
