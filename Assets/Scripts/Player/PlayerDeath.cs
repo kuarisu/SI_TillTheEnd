@@ -9,6 +9,8 @@ public class PlayerDeath : MonoBehaviour {
     public bool m_IsRespawning;
     public GameObject Visual;
     public GameObject Physics;
+    public GameObject m_PSDeath;
+    public GameObject m_PSMove;
 
     /*
     [SerializeField]
@@ -39,60 +41,48 @@ public class PlayerDeath : MonoBehaviour {
     {
         m_PlayerID = GetComponent<Player>().m_PlayerID;
         m_currentSpawn = GetComponent<Player>().m_SpawnPoint;
-
+        m_PSDeath.SetActive(false);
+        m_PSMove = transform.GetChild(4).gameObject;
+        m_PSMove.SetActive(true); 
     }
 
     void OnCollisionEnter (Collision col)
     {
         if(col.collider.gameObject.tag == "DeathZone")
         {
-            DeathZone();
+            Death();
         }
         if (col.collider.gameObject.tag == "BlockMove" && (col.collider.gameObject.GetComponent<BlockPushed>().IdBlock != m_PlayerID))
         {
            m_IsMoving =  col.collider.gameObject.GetComponent<BlockPushed>().m_IsMoving;
             if (m_IsMoving == true) 
             {
-                DeathBlock();
-
-                //A RETRAVAILLER PARCE QUE CA MARCHE PAS (pas deux collision en même temps)
-                //if (col.collider.gameObject.tag == "Floor")
-                //{
-                //    DeathCrush();
-                //}
+                Death();
             }
 
         }
 
     }
 
-    void DeathZone()
+    void Death()
     {
+        SoundManagerEvent.emit(SoundManagerType.PlayerDeath);
         StartCoroutine(ReSpawn());
-    }
-
-    void DeathBlock ()
-    {
-        StartCoroutine(ReSpawn());
-    }
-
-    void DeathCrush()
-    {
-        Debug.Log("Died by crushed");
-        StartCoroutine(ReSpawn());
-
     }
 
     IEnumerator ReSpawn()
     {
         m_IsRespawning = true;
+        m_PSDeath.SetActive(true);
+        m_PSMove.SetActive(false);
         Visual.SetActive(false);
         Physics.SetActive(false);
-        yield return new WaitForSeconds(1);
+        yield return new WaitForSeconds(1.5f);
+        m_PSDeath.SetActive(false);
         Visual.SetActive(true);
         Physics.SetActive(true);
+        m_PSMove.SetActive(true);
         transform.position = m_currentSpawn;
-        yield return new WaitForSeconds(1);
         m_IsRespawning = false;
         yield return null;
     }

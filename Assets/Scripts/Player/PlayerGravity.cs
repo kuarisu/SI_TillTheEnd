@@ -72,9 +72,13 @@ public class PlayerGravity : MonoBehaviour {
             yield return new WaitForEndOfFrame();
         }
 
-        
     }
-
-
-	
+        void OnCollisionEnter (Collision col)
+        {
+            if((col.collider.tag == "Floor" || col.collider.tag == "BlockStill" || col.collider.tag == "BlockMove"))
+            {
+            SoundManagerEvent.emit(SoundManagerType.PlayerColision);
+            }
+        }
+        	
 }
