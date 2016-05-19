@@ -50,6 +50,7 @@ public class BlockPushed : MonoBehaviour {
 
     private IEnumerator Pushed()
     {
+        SoundManagerEvent.emit(SoundManagerType.BlockPushed);
         m_PsPushed.enabled = true;
         int _timePassed = 0;
         while(_timePassed < m_Timer )
@@ -68,6 +69,7 @@ public class BlockPushed : MonoBehaviour {
         //Penser à utiliser un layer à part pour le perso plutôt que quinze mille tag
         if (col.gameObject.tag == "Floor" || col.gameObject.tag == "BlockStill" || col.gameObject.tag == "BlockMove" || col.gameObject.tag == "DeathZone")
         {
+            SoundManagerEvent.emit(SoundManagerType.BlockColision);
             Vector3 _colNormale = col.contacts[0].normal;
             float _AngleReflex = ((Vector3.Angle(m_direction, _colNormale)));
             m_direction = (Quaternion.Euler(0, 0, _AngleReflex) * m_direction);

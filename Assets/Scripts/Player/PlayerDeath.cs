@@ -66,6 +66,7 @@ public class PlayerDeath : MonoBehaviour {
 
     void Death()
     {
+        SoundManagerEvent.emit(SoundManagerType.PlayerDeath);
         StartCoroutine(ReSpawn());
     }
 

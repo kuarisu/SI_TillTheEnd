@@ -28,16 +28,17 @@ using System.Collections;
 
 public enum SoundManagerType
 {
-	MowerStart,
-    MowerStartAndGo,
-    MoweGrass,
-    MoweNoGrass,
-    PoolBounce,
-    BalloonBounce,
-    HomeRun,
-    MenuMove,
-    Victory,
-    WoodShock
+	GameMusic, //Done
+    MainMusic, //Done
+    Bell, //Done
+    BellCaught, //Done
+    Button, //Pas ce soir
+    BlockColision, //Done
+    PlayerColision, //Done
+    PlayerDeath, //
+    PlayerJump, //Done
+    PlayerMeditation, //Done
+    BlockPushed, //Done
 }
 
 public class SoundManagerEvent : MonoBehaviour
@@ -61,7 +62,7 @@ public class SoundManagerEvent : MonoBehaviour
 	{
 		if (s_Instance == null)
 			s_Instance = this;
-		//DontDestroyOnLoad(this);
+		DontDestroyOnLoad(this);
 	}
     #endregion
     void Start()

@@ -20,6 +20,7 @@ public class ArenaSpawner : MonoBehaviour {
     {
         yield return new WaitForSeconds(m_SpawnTimer);
         GameObject _instBell = (GameObject)Instantiate(m_Bell, m_SpawnerBell.transform.position, Quaternion.identity);
+        SoundManagerEvent.emit(SoundManagerType.Bell);
         yield return null;
 
     }

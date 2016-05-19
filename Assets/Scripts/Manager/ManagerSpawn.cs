@@ -23,6 +23,18 @@ public class ManagerSpawn : MonoBehaviour {
 
         DontDestroyOnLoad(gameObject);
 
+
+    }
+
+    void Start()
+    {
+        StartCoroutine("LaunchDelay");
+    }
+
+    IEnumerator LaunchDelay()
+    {
+        yield return new WaitForEndOfFrame();
+        SoundManagerEvent.emit(SoundManagerType.MainMusic);
     }
 
     public void SpawnChara()
