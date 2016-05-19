@@ -10,6 +10,7 @@ public class PlayerDeath : MonoBehaviour {
     public GameObject Visual;
     public GameObject Physics;
     public GameObject m_PSDeath;
+    public GameObject m_PSMove;
 
     /*
     [SerializeField]
@@ -39,7 +40,10 @@ public class PlayerDeath : MonoBehaviour {
     void Start()
     {
         m_PlayerID = GetComponent<Player>().m_PlayerID;
-        m_currentSpawn = GetComponent<Player>().m_SpawnPoint;       
+        m_currentSpawn = GetComponent<Player>().m_SpawnPoint;
+        m_PSDeath.SetActive(false);
+        m_PSMove = transform.GetChild(4).gameObject;
+        m_PSMove.SetActive(true); 
     }
 
     void OnCollisionEnter (Collision col)
@@ -54,12 +58,6 @@ public class PlayerDeath : MonoBehaviour {
             if (m_IsMoving == true) 
             {
                 Death();
-
-                //A RETRAVAILLER PARCE QUE CA MARCHE PAS (pas deux collision en même temps)
-                //if (col.collider.gameObject.tag == "Floor")
-                //{
-                //    DeathCrush();
-                //}
             }
 
         }
@@ -75,14 +73,15 @@ public class PlayerDeath : MonoBehaviour {
     {
         m_IsRespawning = true;
         m_PSDeath.SetActive(true);
+        m_PSMove.SetActive(false);
         Visual.SetActive(false);
         Physics.SetActive(false);
-        yield return new WaitForSeconds(1);
+        yield return new WaitForSeconds(1.5f);
         m_PSDeath.SetActive(false);
         Visual.SetActive(true);
         Physics.SetActive(true);
+        m_PSMove.SetActive(true);
         transform.position = m_currentSpawn;
-        yield return new WaitForSeconds(1);
         m_IsRespawning = false;
         yield return null;
     }

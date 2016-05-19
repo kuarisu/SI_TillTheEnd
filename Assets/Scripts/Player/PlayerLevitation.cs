@@ -9,16 +9,19 @@ public class PlayerLevitation : MonoBehaviour {
     private bool m_OnBlock;
     private RaycastHit hit;
     private PlayerJump m_PlayerJump;
-    public bool m_Levitating;
     private float m_Movement = 0.05f;
     private Rigidbody rb;
-
     private bool m_IsReSpwaning = false;
+
+    public bool m_Levitating;
+    public GameObject m_PSLevitation;
 
     void Start () {
         m_PlayerID = GetComponent<Player>().m_PlayerID;
         m_PlayerJump = GetComponent<PlayerJump>();
         rb = GetComponent<Rigidbody>();
+        m_PSLevitation.SetActive(false);
+
 
     }
 	
@@ -30,11 +33,13 @@ public class PlayerLevitation : MonoBehaviour {
         if (Input.GetButtonDown("X_" + m_PlayerID.ToString()) && m_OnBlock == true && m_IsReSpwaning == false)
         {
             StartCoroutine(Levitation());
-          
+            m_PSLevitation.SetActive(true);
+
         }
         if (Input.GetButtonDown("Y_" + m_PlayerID.ToString()) && m_OnBlock == true && m_IsReSpwaning == false)
         {
             StartCoroutine(EndLevitation());
+            m_PSLevitation.SetActive(false);
         }
         if (m_Levitating == true && m_OnBlock == false)
         {
