@@ -10,7 +10,10 @@ public class PlayerMove : MonoBehaviour
     public GameObject Visual;
 
     private bool m_IsMoving = false;      //Définit si le Player est en mouvement ou non
-    private float m_Movement = 0.23f;     //Vitesse de déplacement du mouvement
+    private float m_Movement;             //Vitesse de déplacement du mouvement
+    private float m_LevitationSpeed = 1f;
+    private float m_MoveSpeed = 1f;
+    private int m_MaxMove = 30;
     private bool m_IsReSpwaning = false;
     public bool m_InLevitation = false;
     private Rigidbody rb;
@@ -25,36 +28,45 @@ public class PlayerMove : MonoBehaviour
     void Update()
     {
         m_IsReSpwaning = GetComponent<PlayerDeath>().m_IsRespawning;
-        m_InLevitation = GetComponent<PlayerLevitation>().m_Levitating;
+        m_Movement = 0;
+        //m_InLevitation = GetComponent<PlayerLevitation>().m_Levitating;
 
-        if(Input.GetAxisRaw("L_XAxis_" + m_PlayerID.ToString()) > 0.3f || Input.GetAxisRaw("L_XAxis_" + m_PlayerID.ToString()) < -0.3f)
+        if (Input.GetAxisRaw("L_XAxis_" + m_PlayerID.ToString()) > 0.5f || Input.GetAxisRaw("L_XAxis_" + m_PlayerID.ToString()) < -0.5f)
         {
             m_An.SetBool("m_IsMovingChara", true);
         }
         else
         {
             m_An.SetBool("m_IsMovingChara", false);
+            m_IsMoving = false;
+            m_Movement = 0;
+        }
+        if (m_IsReSpwaning == true)
+        {
+            m_Movement = 0;
         }
 
-        if (m_InLevitation == true)
-        {
-            m_Movement = 0.05f;
-        }
-        else if (m_InLevitation == false)
-        {
-            m_Movement = 0.23f;
-        }
+        //if (m_InLevitation == true)
+        //{
+        //    m_Movement = m_LevitationSpeed;
+        //}
+        //else if (m_InLevitation == false)
+        //{
+        //    m_Movement = m_MoveSpeed;
+        //}
 
         //Moving to the Right
-        if (Input.GetAxisRaw("L_XAxis_" + m_PlayerID.ToString()) > 0.3 && m_IsReSpwaning == false)
+        if (Input.GetAxisRaw("L_XAxis_" + m_PlayerID.ToString()) > 0 && m_IsReSpwaning == false)
         {
+            m_IsMoving = true;
             Visual.transform.eulerAngles = new Vector3(0, 0, 0); 
             StartCoroutine(RightMovement());
 
         }
         //Moving to the Left
-        if (Input.GetAxisRaw("L_XAxis_" + m_PlayerID.ToString()) < -0.3 && m_IsReSpwaning == false)
+        if (Input.GetAxisRaw("L_XAxis_" + m_PlayerID.ToString()) < 0 && m_IsReSpwaning == false)
         {
+            m_IsMoving = true;
             Visual.transform.eulerAngles = new Vector3(0, -180, 0);
             StartCoroutine(LeftMovement());
         }
@@ -63,18 +75,31 @@ public class PlayerMove : MonoBehaviour
     IEnumerator RightMovement()
     { 
         m_IsMoving = true;
-        transform.position = transform.position + (transform.right * m_Movement);
-        //rb.MovePosition(transform.position + (transform.right * m_Movement));
+
+        while (m_IsMoving == true)
+        {
+            if( m_Movement < m_MaxMove)
+                m_Movement = m_Movement + 0.5f;
+
+            rb.MovePosition(transform.position + transform.right * m_Movement * Time.deltaTime);
+            yield return new WaitForEndOfFrame();
+        }
+
         yield return null;
-        m_IsMoving = false;
     }
 
     IEnumerator LeftMovement()
     {
-        m_IsMoving = true;
-        transform.position = transform.position - (transform.right * m_Movement);
-        //rb.MovePosition(transform.position - (transform.right * m_Movement));
+   
+        while (m_IsMoving == true)
+        {
+            if (m_Movement < m_MaxMove)
+                m_Movement = m_Movement + 0.5f;
+
+            rb.MovePosition(transform.position - transform.right * m_Movement * Time.deltaTime);
+            yield return new WaitForEndOfFrame();
+        }
         yield return null;
-        m_IsMoving = false;
+
     }
 }
