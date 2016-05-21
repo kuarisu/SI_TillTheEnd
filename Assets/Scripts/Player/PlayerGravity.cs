@@ -15,7 +15,7 @@ public class PlayerGravity : MonoBehaviour {
     public Animator m_An;
 
     public RaycastHit hit;
-    private int m_GravityStrength = 20;
+    [SerializeField]
     private int m_GravityStrengthForce = 400;
     private float m_GroundingHeight = 0.4f;
 
@@ -67,7 +67,6 @@ public class PlayerGravity : MonoBehaviour {
             if (m_IsGrounded == false && !GetComponent<PlayerJump>().m_IsJumping)
             {
                 rb.AddForce(Vector3.down * m_GravityStrengthForce);
-                //transform.Translate((-Vector3.up * m_GravityStrength) * Time.smoothDeltaTime);
             }
             yield return new WaitForEndOfFrame();
         }
