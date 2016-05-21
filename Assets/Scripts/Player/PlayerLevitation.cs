@@ -36,7 +36,7 @@ public class PlayerLevitation : MonoBehaviour {
             m_PSLevitation.SetActive(true);
 
         }
-        if (Input.GetButtonDown("Y_" + m_PlayerID.ToString()) && m_OnBlock == true && m_IsReSpwaning == false)
+        if (Input.GetButtonDown("Y_" + m_PlayerID.ToString()) && m_OnBlock == true && m_IsReSpwaning == false )
         {
             StartCoroutine(EndLevitation());
             m_PSLevitation.SetActive(false);
@@ -77,6 +77,7 @@ public class PlayerLevitation : MonoBehaviour {
             }
             yield return new WaitForEndOfFrame();
         }
+
         yield return null;
     }
 
