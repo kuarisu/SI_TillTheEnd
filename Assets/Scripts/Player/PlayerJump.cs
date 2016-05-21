@@ -8,12 +8,15 @@ public class PlayerJump : MonoBehaviour {
     private int m_PlayerID;
     private bool m_PlayerIsGrounded;
     private bool m_IsReSpwaning = false;
-    private float m_JumpSpeed = 10;
-    private int m_MaxJump = 50;
+    //private int m_MaxJump = 50;
     private Rigidbody rb;
-    private int m_NbJumps = 1;
+    private int m_NbJumps = 2;
 
-    public float m_TimerJump;
+    [SerializeField]
+    private float m_JumpSpeedMax = 10;
+    [SerializeField]
+    private float m_TimerJump;
+
     public bool m_IsJumping;
     public GameObject m_PSJump;
 
@@ -34,17 +37,20 @@ public class PlayerJump : MonoBehaviour {
 
         if (m_PlayerIsGrounded == true)
         {
-            m_NbJumps = 1;
+            m_NbJumps = 2;
         }
 
         //Jumping
         if (Input.GetButtonDown("A_" + m_PlayerID.ToString()) && m_IsReSpwaning == false)
         {
-            StopAllCoroutines();
-            StartCoroutine(Jumping());
-            StartCoroutine(JumpTimer());
-            StartCoroutine(StopAnim());
-            JumpsCount();
+            if (m_NbJumps > 0)
+            {
+                StopAllCoroutines();
+                StartCoroutine(Jumping());
+                StartCoroutine(JumpTimer());
+                StartCoroutine(StopAnim());
+                JumpsCount();
+            }
         }
     }
 
@@ -58,8 +64,7 @@ public class PlayerJump : MonoBehaviour {
 
     IEnumerator Jumping()
     {
-        if (m_NbJumps > 0)
-        {
+      
             m_An.SetBool(" m_IsJumpingAnim", true);
             SoundManagerEvent.emit(SoundManagerType.PlayerJump);
             m_IsJumping = true;
@@ -69,7 +74,7 @@ public class PlayerJump : MonoBehaviour {
 
             #region AVEC VELOCITY
             float _time = 0;
-            float _currentJumpSpeed = m_JumpSpeed;
+            float _currentJumpSpeed = m_JumpSpeedMax;
 
             while (m_IsJumping == true && _time < m_TimerJump)
             {
@@ -77,7 +82,7 @@ public class PlayerJump : MonoBehaviour {
                 rb.velocity = new Vector3(rb.velocity.x, 0, rb.velocity.z);
                 rb.velocity += Vector3.up * _currentJumpSpeed;
                 //rb.AddForce(Vector3.up * (_currentJumpSpeed + 500));
-                _currentJumpSpeed -= (m_JumpSpeed / m_TimerJump) * Time.deltaTime;
+                _currentJumpSpeed -= (m_JumpSpeedMax / m_TimerJump) * Time.deltaTime;
 
                 //rb.MovePosition(transform.position + transform.up * m_JumpSpeed * Time.deltaTime);
                 yield return new WaitForEndOfFrame();
@@ -87,15 +92,15 @@ public class PlayerJump : MonoBehaviour {
             #region AVEC TRANSFORM.POSITION
             //float _const;
             //float _y;
-            //float _time = 0;
+            //float atime = 0;
             //Vector3 _startPos = transform.position;
             //float _heightJump = 5;
 
-            //while (_time < m_TimerJump)
+            //while (atime < m_TimerJump)
             //{
-            //    _const = Mathf.Lerp(-1, 0, _time / m_TimerJump);
+            //    _const = Mathf.Lerp(-1, 0, atime / m_TimerJump);
             //    _y = Mathf.Lerp(_heightJump, 0, Mathf.Pow(_const, 2));
-            //    _time += Time.deltaTime;
+            //    atime += Time.deltaTime;
             //    transform.position = new Vector3(transform.position.x,
             //                                    _startPos.y + _y,
             //                                    transform.position.z);
@@ -111,7 +116,7 @@ public class PlayerJump : MonoBehaviour {
             //    //rb.MovePosition((transform.position + (transform.up * m_JumpSpeed)) * Time.sm);
             //    yield return new WaitForEndOfFrame();
             //}
-        }
+       
         yield return null;
     }
 

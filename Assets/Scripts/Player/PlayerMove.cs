@@ -10,10 +10,12 @@ public class PlayerMove : MonoBehaviour
     public GameObject Visual;
 
     private bool m_IsMoving = false;      //Définit si le Player est en mouvement ou non
-    private float m_Movement;             //Vitesse de déplacement du mouvement
+    private float m_MoveSpeed;             //Vitesse de déplacement du mouvement
     //private float m_LevitationSpeed = 1f;
-    private float m_MoveSpeed = 1f;
-    private int m_MaxMove = 8;
+    [SerializeField]
+    private int m_MaxMoveSpeed = 8;
+    [SerializeField]
+    private float m_Acceleration = 1;
     private bool m_IsReSpwaning = false;
     public bool m_InLevitation = false;
     private Rigidbody rb;
@@ -27,7 +29,7 @@ public class PlayerMove : MonoBehaviour
     {
         m_PlayerID = GetComponent<Player>().m_PlayerID;
         rb = GetComponent<Rigidbody>();
-        m_Movement = 0;
+        m_MoveSpeed = 0;
     }
 
     void Update()
@@ -43,11 +45,11 @@ public class PlayerMove : MonoBehaviour
         {
             m_An.SetBool("m_IsMovingChara", false);
             m_IsMoving = false;
-            m_Movement = 0;
+            m_MoveSpeed = 0;
         }
         if (m_IsReSpwaning == true)
         {
-            m_Movement = 0;
+            m_MoveSpeed = 0;
         }
 
         //if (m_InLevitation == true)
@@ -78,7 +80,7 @@ public class PlayerMove : MonoBehaviour
         m_Direction = Vector3.right * Input.GetAxisRaw("L_XAxis_" + m_PlayerID.ToString());
         m_Direction.Normalize();
 
-        rb.velocity = m_Direction * m_Movement;
+        rb.velocity = m_Direction * m_MoveSpeed;
 
         //dtransform.position += Vector3.right * Input.GetAxisRaw("L_XAxis_" + m_PlayerID.ToString()) * m_MaxMove * Time.deltaTime;
 
@@ -87,8 +89,8 @@ public class PlayerMove : MonoBehaviour
 
     IEnumerator RightMovement()
     {
-        if( m_Movement < m_MaxMove)
-            m_Movement += 1;
+        if( m_MoveSpeed < m_MaxMoveSpeed)
+            m_MoveSpeed += m_Acceleration;
 
         //rb.MovePosition(transform.position + transform.right * m_Movement * Time.deltaTime);
 
@@ -98,8 +100,8 @@ public class PlayerMove : MonoBehaviour
     IEnumerator LeftMovement()
     {
 
-        if (m_Movement < m_MaxMove)
-            m_Movement += 1;
+        if (m_MoveSpeed < m_MaxMoveSpeed)
+            m_MoveSpeed += m_Acceleration;
 
         //rb.MovePosition(transform.position - transform.right * m_Movement * Time.deltaTime);
 
