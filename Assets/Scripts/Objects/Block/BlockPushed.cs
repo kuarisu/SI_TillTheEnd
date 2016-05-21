@@ -3,17 +3,17 @@ using System.Collections;
 
 public class BlockPushed : MonoBehaviour {
 
+
+    Vector3 m_currentPosition;
+    Rigidbody m_Rb;
+    Vector3 m_direction;
+    float _bounceSpeed = 0.4f;
+    ParticleSystem.EmissionModule m_PsPushed;
+
     public GameObject m_PlayerTarget;
-    private Vector3 m_currentPosition;
-    private Rigidbody m_Rb;
     public int m_Timer = 5;
-    private Vector3 m_direction;
     public bool m_IsMoving = false;
     public bool m_Levitation = false;
-
-    public int m_NbBounce = 0;
-    int bounceSpeed = 1;
-    int bounceAmount = 2;
     public int IdBlock;
 
     void Start()
@@ -21,6 +21,8 @@ public class BlockPushed : MonoBehaviour {
         m_Timer = m_Timer * 30;
         m_Rb = GetComponent<Rigidbody>();
         m_currentPosition = transform.position;
+        m_PsPushed = GetComponent<ParticleSystem>().emission;
+        m_PsPushed.enabled = false;
     }
 
     void Update ()
@@ -33,7 +35,6 @@ public class BlockPushed : MonoBehaviour {
         if (transform.position == m_currentPosition)
         {
             m_IsMoving = false;
-            m_NbBounce = 0;
             m_Rb.isKinematic = true;
         }
         m_currentPosition = transform.position;
@@ -44,11 +45,13 @@ public class BlockPushed : MonoBehaviour {
     {
         StartCoroutine(Pushed());
         Vector3 _positionTarget = m_PlayerTarget.transform.position;
-        m_direction = (_positionTarget - transform.position).normalized * 0.4f;
+        m_direction = (_positionTarget - transform.position).normalized * _bounceSpeed;
     }
 
     private IEnumerator Pushed()
     {
+        SoundManagerEvent.emit(SoundManagerType.BlockPushed);
+        m_PsPushed.enabled = true;
         int _timePassed = 0;
         while(_timePassed < m_Timer )
         {
@@ -56,6 +59,7 @@ public class BlockPushed : MonoBehaviour {
             _timePassed++;
             yield return new WaitForEndOfFrame();
         }
+        m_PsPushed.enabled = false;
 
     }
 
@@ -65,7 +69,7 @@ public class BlockPushed : MonoBehaviour {
         //Penser à utiliser un layer à part pour le perso plutôt que quinze mille tag
         if (col.gameObject.tag == "Floor" || col.gameObject.tag == "BlockStill" || col.gameObject.tag == "BlockMove" || col.gameObject.tag == "DeathZone")
         {
-            m_NbBounce++;
+            SoundManagerEvent.emit(SoundManagerType.BlockColision);
             Vector3 _colNormale = col.contacts[0].normal;
             float _AngleReflex = ((Vector3.Angle(m_direction, _colNormale)));
             m_direction = (Quaternion.Euler(0, 0, _AngleReflex) * m_direction);

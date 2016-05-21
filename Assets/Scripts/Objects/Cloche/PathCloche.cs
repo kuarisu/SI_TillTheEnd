@@ -5,17 +5,13 @@ public class PathCloche : MonoBehaviour {
 
 
 
-    public GameObject cloche;
     public GameObject centre;
 
     bool canTeleport = true;
 
-    private float spawningTime = 10;
     public float distanceRaycast;
     public float refreshRateInSeconds;
 
-
-    Vector3 direction;
     Vector3 newDirection;
     Vector3 shortVector;
     Vector3 vectorCentre;
@@ -25,30 +21,15 @@ public class PathCloche : MonoBehaviour {
     Ray rayToCentre;
 
     //variables pour stocker les coordonnées aléatoires des vecteurs
-    float x;
-    float y;
     float newX;
     float newY;
-    float centerX;
-    float centerY;
 
     // Use this for initialization
     void Start()
     {
-        cloche.transform.localScale = new Vector3(0, 0, 0);
         newDirection = new Vector3(Random.Range(-1, 1), Random.Range(-1, 1));
-        StartCoroutine(WaitForSpawning());
-
-        centerX = centre.transform.position.x; //coordonnées du centre géographique du niveau (z=0)
-        centerY = centre.transform.position.y;
-
-
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-
+        centre = ManagerSpawn.instance.m_CurrentLevel.GetComponent<ArenaSpawner>().m_CenterLevel;
+        Scan();
     }
 
     IEnumerator CalculateRaycast()
@@ -74,17 +55,13 @@ public class PathCloche : MonoBehaviour {
         {
             if (hitInfo.collider.tag == "Floor" || hitInfo.collider.tag == "DeathZone"  || hitInfo.collider.tag == "BlockMove" || hitInfo.collider.tag == "BlockStill")
             {
-                //newX = newX * 2;
-                //newY = newY * 2;
                 WallCollide();
-                Debug.Log("Chemin obstrué");
                 yield return null;
             }
         }
         else //se déclenche s'il n'y a rien
         {
             MoveToPosition();
-            Debug.Log("Rien par ici mon capitaine!");
             yield return null;
         }
     }
@@ -97,15 +74,7 @@ public class PathCloche : MonoBehaviour {
         StartCoroutine(CalculateRaycast());
     }
 
-    //cette coroutine détermine quand la cloche spawnera dans la partie
-    IEnumerator WaitForSpawning()
-    {
-        yield return new WaitForSeconds(spawningTime);
-        cloche.transform.localScale = new Vector3(1, 1, 1);
-        StartCoroutine(CalculateRaycast());
-    }
-
-    void Scan() //doit se déclencher quand le chemin est obstrué, pour pouvoir dévier de manière plus marquée
+    void Scan() //doit se déclencher quand le chemin est obstrué, pour pouvoir dévier de manière plus marqué
     {
         newDirection = new Vector3(Random.Range(-40, 40), Random.Range(-40, 40));
 
@@ -115,7 +84,6 @@ public class PathCloche : MonoBehaviour {
             canTeleport = true;
         }
         directionRay = new Ray(transform.position, newDirection);
-        Debug.Log("scan");
 
         if (Physics.Raycast(directionRay, out hitInfo, distanceRaycast))
         {
@@ -123,9 +91,6 @@ public class PathCloche : MonoBehaviour {
             if (hitInfo.collider.tag == "Floor")
             {
                 WallCollide();
-                Debug.Log("WallCollide");
-
-
             }
         }
         else if (!Physics.Raycast(directionRay, out hitInfo, distanceRaycast))
