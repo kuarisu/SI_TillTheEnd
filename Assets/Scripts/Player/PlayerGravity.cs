@@ -16,7 +16,14 @@ public class PlayerGravity : MonoBehaviour {
 
     public RaycastHit hit;
     [SerializeField]
-    private int m_GravityStrengthForce = 400;
+    private float m_GravityStrength = 400;
+    [SerializeField]
+    private float m_MaxGravity;
+    [SerializeField]
+    private float m_TimerMax = 1;
+    private float m_Time = 0;
+
+
     private float m_GroundingHeight = 0.4f;
 
     private Rigidbody rb;
@@ -62,11 +69,28 @@ public class PlayerGravity : MonoBehaviour {
 
     IEnumerator IsGrounded()
     {
+        
         while (true)
         {
+            if (m_Time < m_TimerMax)
+            {
+                m_Time += Time.deltaTime;
+            }
             if (m_IsGrounded == false && !GetComponent<PlayerJump>().m_IsJumping)
             {
-                rb.AddForce(Vector3.down * m_GravityStrengthForce);
+                if (m_GravityStrength < m_MaxGravity)
+                {
+                    m_GravityStrength += (m_MaxGravity / m_TimerMax) * Time.deltaTime;
+                }
+                Debug.Log("m_GravityStrength = " + m_GravityStrength + "\n time = " + m_Time);
+
+                rb.AddForce(Vector3.down * m_GravityStrength);
+                    
+            }
+            else
+            {
+                m_GravityStrength = 0;
+                m_Time = 0;
             }
             yield return new WaitForEndOfFrame();
         }
