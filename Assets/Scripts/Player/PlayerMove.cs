@@ -11,24 +11,28 @@ public class PlayerMove : MonoBehaviour
 
     private bool m_IsMoving = false;      //Définit si le Player est en mouvement ou non
     private float m_Movement;             //Vitesse de déplacement du mouvement
-    private float m_LevitationSpeed = 1f;
+    //private float m_LevitationSpeed = 1f;
     private float m_MoveSpeed = 1f;
-    private int m_MaxMove = 30;
+    private int m_MaxMove = 8;
     private bool m_IsReSpwaning = false;
     public bool m_InLevitation = false;
     private Rigidbody rb;
+
+
+
+    private Vector3 m_Direction;
+
 
     void Start()
     {
         m_PlayerID = GetComponent<Player>().m_PlayerID;
         rb = GetComponent<Rigidbody>();
-
+        m_Movement = 0;
     }
 
     void Update()
     {
         m_IsReSpwaning = GetComponent<PlayerDeath>().m_IsRespawning;
-        m_Movement = 0;
         //m_InLevitation = GetComponent<PlayerLevitation>().m_Levitating;
 
         if (Input.GetAxisRaw("L_XAxis_" + m_PlayerID.ToString()) > 0.5f || Input.GetAxisRaw("L_XAxis_" + m_PlayerID.ToString()) < -0.5f)
@@ -70,35 +74,35 @@ public class PlayerMove : MonoBehaviour
             Visual.transform.eulerAngles = new Vector3(0, -180, 0);
             StartCoroutine(LeftMovement());
         }
+
+        m_Direction = Vector3.right * Input.GetAxisRaw("L_XAxis_" + m_PlayerID.ToString());
+        m_Direction.Normalize();
+
+        rb.velocity = m_Direction * m_Movement;
+
+        //dtransform.position += Vector3.right * Input.GetAxisRaw("L_XAxis_" + m_PlayerID.ToString()) * m_MaxMove * Time.deltaTime;
+
+
     }
 
     IEnumerator RightMovement()
-    { 
-        m_IsMoving = true;
+    {
+        if( m_Movement < m_MaxMove)
+            m_Movement += 1;
 
-        while (m_IsMoving == true)
-        {
-            if( m_Movement < m_MaxMove)
-                m_Movement = m_Movement + 0.5f;
-
-            rb.MovePosition(transform.position + transform.right * m_Movement * Time.deltaTime);
-            yield return new WaitForEndOfFrame();
-        }
+        //rb.MovePosition(transform.position + transform.right * m_Movement * Time.deltaTime);
 
         yield return null;
     }
 
     IEnumerator LeftMovement()
     {
-   
-        while (m_IsMoving == true)
-        {
-            if (m_Movement < m_MaxMove)
-                m_Movement = m_Movement + 0.5f;
 
-            rb.MovePosition(transform.position - transform.right * m_Movement * Time.deltaTime);
-            yield return new WaitForEndOfFrame();
-        }
+        if (m_Movement < m_MaxMove)
+            m_Movement += 1;
+
+        //rb.MovePosition(transform.position - transform.right * m_Movement * Time.deltaTime);
+
         yield return null;
 
     }

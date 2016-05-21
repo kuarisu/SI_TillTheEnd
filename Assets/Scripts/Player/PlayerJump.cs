@@ -8,7 +8,7 @@ public class PlayerJump : MonoBehaviour {
     private int m_PlayerID;
     private bool m_PlayerIsGrounded;
     private bool m_IsReSpwaning = false;
-    private float m_JumpSpeed = 15;
+    private float m_JumpSpeed = 10;
     private int m_MaxJump = 50;
     private Rigidbody rb;
     private int m_NbJumps = 1;
@@ -31,26 +31,20 @@ public class PlayerJump : MonoBehaviour {
     void Update() {
         m_IsReSpwaning = GetComponent<PlayerDeath>().m_IsRespawning;
         m_PlayerIsGrounded = GetComponent<PlayerGravity>().m_IsGrounded;
-        Debug.Log(m_IsJumping);
+
+        if (m_PlayerIsGrounded == true)
+        {
+            m_NbJumps = 1;
+        }
 
         //Jumping
         if (Input.GetButtonDown("A_" + m_PlayerID.ToString()) && m_IsReSpwaning == false)
         {
+            StopAllCoroutines();
             StartCoroutine(Jumping());
             StartCoroutine(JumpTimer());
             StartCoroutine(StopAnim());
             JumpsCount();
-        }
-
-
-        if(m_IsJumping == false)
-        {
-            m_JumpSpeed = 15;
-        }
-
-        if (m_PlayerIsGrounded == true && m_NbJumps != 1)
-        {
-            m_NbJumps = 1;
         }
     }
 
@@ -64,43 +58,60 @@ public class PlayerJump : MonoBehaviour {
 
     IEnumerator Jumping()
     {
-        m_An.SetBool(" m_IsJumpingAnim", true);
-
         if (m_NbJumps > 0)
-        { 
+        {
+            m_An.SetBool(" m_IsJumpingAnim", true);
             SoundManagerEvent.emit(SoundManagerType.PlayerJump);
             m_IsJumping = true;
 
-
-            //Sauter tout le temps, mais y a un compteur et si il tombe à 0 on ne peut plus sauter (donc pas de limitation de saut SEULEMENT quand isGrounded. A voir)
             m_PSJump.SetActive(false);
             m_PSJump.SetActive(true);
-            int _time = 0;
 
-            while (m_IsJumping == true)
+            #region AVEC VELOCITY
+            float _time = 0;
+            float _currentJumpSpeed = m_JumpSpeed;
+
+            while (m_IsJumping == true && _time < m_TimerJump)
             {
-                Debug.Log("hey");
-                Debug.Log("Time " + _time);
-                if (_time < m_TimerJump)
-                {
-                    if (m_JumpSpeed < m_MaxJump)
-                        m_JumpSpeed = m_JumpSpeed + 4f;
+                _time += Time.deltaTime;
+                rb.velocity = new Vector3(rb.velocity.x, 0, rb.velocity.z);
+                rb.velocity += Vector3.up * _currentJumpSpeed;
+                //rb.AddForce(Vector3.up * (_currentJumpSpeed + 500));
+                _currentJumpSpeed -= (m_JumpSpeed / m_TimerJump) * Time.deltaTime;
 
-                    rb.MovePosition(transform.position + transform.up * m_JumpSpeed * Time.deltaTime);
-                    yield return new WaitForEndOfFrame();
-                }
+                //rb.MovePosition(transform.position + transform.up * m_JumpSpeed * Time.deltaTime);
+                yield return new WaitForEndOfFrame();
             }
+            #endregion
 
+            #region AVEC TRANSFORM.POSITION
+            //float _const;
+            //float _y;
+            //float _time = 0;
+            //Vector3 _startPos = transform.position;
+            //float _heightJump = 5;
 
-        //int _time = 30;
-        //for (int i = 0; i < _time; i++)
-        //{
-        //    m_PlayerIsGrounded = true;
-        //    transform.Translate((Vector3.up * m_JumpSpeed) * Time.deltaTime);
-        //    //rb.MovePosition((transform.position + (transform.up * m_JumpSpeed)) * Time.sm);
-        //    yield return new WaitForEndOfFrame();
-        //}
-    }
+            //while (_time < m_TimerJump)
+            //{
+            //    _const = Mathf.Lerp(-1, 0, _time / m_TimerJump);
+            //    _y = Mathf.Lerp(_heightJump, 0, Mathf.Pow(_const, 2));
+            //    _time += Time.deltaTime;
+            //    transform.position = new Vector3(transform.position.x,
+            //                                    _startPos.y + _y,
+            //                                    transform.position.z);
+            //    yield return new WaitForEndOfFrame();
+            //}
+            #endregion
+
+            //int _time = 30;
+            //for (int i = 0; i < _time; i++)
+            //{
+            //    m_PlayerIsGrounded = true;
+            //    transform.Translate((Vector3.up * m_JumpSpeed) * Time.deltaTime);
+            //    //rb.MovePosition((transform.position + (transform.up * m_JumpSpeed)) * Time.sm);
+            //    yield return new WaitForEndOfFrame();
+            //}
+        }
         yield return null;
     }
 

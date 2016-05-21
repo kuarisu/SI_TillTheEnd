@@ -3,7 +3,7 @@ using System.Collections;
 
 public class PlayerGravity : MonoBehaviour {
 
-    [HideInInspector]
+    //[HideInInspector]
     public bool m_IsGrounded = true;
     [HideInInspector]
     public bool m_OnBlock = false;
@@ -16,15 +16,18 @@ public class PlayerGravity : MonoBehaviour {
 
     public RaycastHit hit;
     private int m_GravityStrength = 20;
-    private float m_GroundingHeight = 0.5f;
+    private int m_GravityStrengthForce = 400;
+    private float m_GroundingHeight = 0.4f;
+
+    private Rigidbody rb;
 
 
 	void Start () {
+        rb = GetComponent<Rigidbody>();
         StartCoroutine(IsGrounded());
 	}
 
     void Update()
-
     {
         Ray groundingRay = new Ray(transform.position, Vector3.down);
         Debug.DrawRay(transform.position, Vector3.down);
@@ -32,7 +35,7 @@ public class PlayerGravity : MonoBehaviour {
         if (Physics.Raycast(groundingRay, out hit, m_GroundingHeight))
         {
             
-            if (hit.collider.tag == "Floor" || hit.collider.tag == "BlockStill" || hit.collider.tag == "BlockMove")
+            if (hit.collider.tag == "BlockStill" || hit.collider.tag == "BlockMove")
             {
                 m_IsGrounded = true;
                 m_An.SetBool("m_IsGrounded", true);
@@ -53,7 +56,7 @@ public class PlayerGravity : MonoBehaviour {
             m_IsGrounded = false;
             m_An.SetBool("m_IsGrounded", false);
         }
-        
+
     }
 
 
@@ -61,13 +64,10 @@ public class PlayerGravity : MonoBehaviour {
     {
         while (true)
         {
-            if (m_IsGrounded == true)
+            if (m_IsGrounded == false && !GetComponent<PlayerJump>().m_IsJumping)
             {
-                yield return new WaitForEndOfFrame();
-            }
-            if (m_IsGrounded == false)
-            {
-                transform.Translate((-Vector3.up * m_GravityStrength) * Time.smoothDeltaTime);
+                rb.AddForce(Vector3.down * m_GravityStrengthForce);
+                //transform.Translate((-Vector3.up * m_GravityStrength) * Time.smoothDeltaTime);
             }
             yield return new WaitForEndOfFrame();
         }
