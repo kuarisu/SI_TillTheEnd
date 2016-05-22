@@ -24,7 +24,7 @@ public class PlayerGravity : MonoBehaviour {
     private float m_Time = 0;
 
 
-    private float m_GroundingHeight = 0.4f;
+    private float m_GroundingHeight = 0.2f;
 
     private Rigidbody rb;
 
@@ -82,7 +82,7 @@ public class PlayerGravity : MonoBehaviour {
                 {
                     m_GravityStrength += (m_MaxGravity / m_TimerMax) * Time.deltaTime;
                 }
-                Debug.Log("m_GravityStrength = " + m_GravityStrength + "\n time = " + m_Time);
+//                Debug.Log("m_GravityStrength = " + m_GravityStrength + "\n time = " + m_Time);
 
                 rb.AddForce(Vector3.down * m_GravityStrength);
                     

@@ -7,14 +7,19 @@ public class BlockPushed : MonoBehaviour {
     Vector3 m_currentPosition;
     Rigidbody m_Rb;
     Vector3 m_direction;
-    float _bounceSpeed = 0.4f;
     ParticleSystem.EmissionModule m_PsPushed;
+    Vector3 m_StartPos;
+    [SerializeField]
+    GameObject m_ColBlock;
+    float m_MoveBlockSpeed = 15;
 
     public GameObject m_PlayerTarget;
-    public int m_Timer = 5;
+    public float m_Timer = 1.5f;
     public bool m_IsMoving = false;
     public bool m_Levitation = false;
     public int IdBlock;
+
+
 
     void Start()
     {
@@ -38,27 +43,34 @@ public class BlockPushed : MonoBehaviour {
             m_Rb.isKinematic = true;
         }
         m_currentPosition = transform.position;
-        
+
+        Debug.DrawLine(m_currentPosition, m_currentPosition + m_direction, Color.red, 1, false);
     }
 
     public void PushedCoroutine()
     {
-        StartCoroutine(Pushed());
+
         Vector3 _positionTarget = m_PlayerTarget.transform.position;
-        m_direction = (_positionTarget - transform.position).normalized * _bounceSpeed;
+        m_direction = (_positionTarget - transform.position).normalized;
+        StartCoroutine(Pushed());
+
     }
 
     private IEnumerator Pushed()
     {
+        m_Rb.isKinematic = false;
+        m_StartPos = transform.position;
         SoundManagerEvent.emit(SoundManagerType.BlockPushed);
         m_PsPushed.enabled = true;
         int _timePassed = 0;
         while(_timePassed < m_Timer )
         {
-            transform.position = new Vector2(transform.position.x + m_direction.x, transform.position.y + m_direction.y);
+            //transform.position = new Vector2(transform.position.x + m_direction.x, transform.position.y + m_direction.y);
+            m_Rb.velocity = m_direction * m_MoveBlockSpeed;
             _timePassed++;
             yield return new WaitForEndOfFrame();
         }
+        m_Rb.velocity = new Vector3 (0, 0,0);
         m_PsPushed.enabled = false;
 
     }
@@ -69,16 +81,30 @@ public class BlockPushed : MonoBehaviour {
         //Penser à utiliser un layer à part pour le perso plutôt que quinze mille tag
         if (col.gameObject.tag == "Floor" || col.gameObject.tag == "BlockStill" || col.gameObject.tag == "BlockMove" || col.gameObject.tag == "DeathZone")
         {
-            SoundManagerEvent.emit(SoundManagerType.BlockColision);
-            Vector3 _colNormale = col.contacts[0].normal;
-            float _AngleReflex = ((Vector3.Angle(m_direction, _colNormale)));
-            m_direction = (Quaternion.Euler(0, 0, _AngleReflex) * m_direction);
+            if (m_ColBlock == null)
+            {
+                m_ColBlock = col.gameObject;
+                Debug.DrawLine(col.contacts[0].point, col.contacts[0].point + col.contacts[0].normal * 5, Color.blue, 10, false);
+                SoundManagerEvent.emit(SoundManagerType.BlockColision);
 
+                Vector3 _colNormale = col.contacts[0].normal;
+                m_direction = Vector3.Reflect(col.contacts[0].point - m_StartPos, _colNormale).normalized;
+                //Debug.DrawLine(col.contacts[0].point, col.contacts[0].point + m_direction * 4, Color.yellow, 5, false);
+                m_StartPos = transform.position;
+                StartCoroutine(Clearlist());
+
+                //float _AngleReflex = ((Vector3.Angle(m_direction, _colNormale)));
+                //m_direction = (Quaternion.Euler(0, 0, _AngleReflex) * m_direction);
+                //Debug.DrawLine(col.contacts[0].point, col.contacts[0].point + m_direction * 10, Color.yellow, 10, false);
+            }
         }
+    }
 
-
-        //Récupérer le point de collision azvec le mur récupérer la normale de ce point de coll'
-        //Trouver l'angle entre l'arriver du point et la normal, faire 1/sin(angle trouvé) et faire rotate la direction d'autant.
+    IEnumerator Clearlist ()
+    {
+        yield return new WaitForEndOfFrame();
+        m_ColBlock = null;
+        yield return null;
     }
 
 }
