@@ -21,6 +21,7 @@ public class PlayerPush : MonoBehaviour {
 	void Update () {
 
         m_IsReSpwaning = GetComponent<PlayerDeath>().m_IsRespawning;
+
         if (Input.GetButtonDown("RB_"+m_PlayerID.ToString()) && m_playerGravity.m_OnBlock == true && m_IsReSpwaning == false && ((Input.GetAxis("R_XAxis_" + m_PlayerID.ToString()) != 0) || (Input.GetAxis("R_YAxis_" + m_PlayerID.ToString()) != 0)))
         {
             m_An.SetBool("m_IsPunching", true);
@@ -28,6 +29,7 @@ public class PlayerPush : MonoBehaviour {
             m_IsPunching = true;
             m_playerGravity.m_BlockTouched.GetComponent<BlockPushed>().IdBlock = m_PlayerID;
             m_playerGravity.m_BlockTouched.GetComponent<BlockPushed>().PushedCoroutine();
+            m_playerGravity.m_BlockTouched.GetComponent<BlockPushed>().m_PlayerPushing = this.gameObject;
             m_IsPunching = false;
             StartCoroutine(StopAnim());
         }

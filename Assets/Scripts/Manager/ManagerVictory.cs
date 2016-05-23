@@ -11,7 +11,7 @@ public class ManagerVictory : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 	
-        if(m_Timer ==0)
+        if(m_Timer == 0)
         {
             VictoryByTime();
         }

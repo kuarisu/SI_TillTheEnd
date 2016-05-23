@@ -33,7 +33,7 @@ public class PlayerScoring : MonoBehaviour {
 
         GetComponent<Player>().m_Score.text = "Player P" + m_PlayerID.ToString() + ": " + m_ActualScore.ToString();
         GetComponent<Player>().m_Multiplicator.text = "x" + m_ActualMultiplicator.ToString();
-
+        Mathf.Clamp(m_ActualScore, 0, m_MaxScore);
         if (m_ActualScore == m_MaxScore)
         {
             if (m_PlayerID == 1)
@@ -67,7 +67,7 @@ public class PlayerScoring : MonoBehaviour {
 
     public void Died()
     {
-        if (m_ActualScore >= 0)
+        if (m_ActualScore >= m_DeathZonePoints)
         {
             m_ActualScore -= m_DeathZonePoints;
         }
