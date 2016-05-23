@@ -24,7 +24,7 @@ public class PlayerGravity : MonoBehaviour {
     private float m_Time = 0;
 
 
-    private float m_GroundingHeight = 0.2f;
+    private float m_GroundingHeight = 0.15f;
 
     private Rigidbody rb;
 

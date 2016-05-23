@@ -10,7 +10,7 @@ public class PlayerJump : MonoBehaviour {
     private bool m_IsReSpwaning = false;
     //private int m_MaxJump = 50;
     private Rigidbody rb;
-    private int m_NbJumps = 2;
+    public int m_NbJumps = 2;
 
     [SerializeField]
     private float m_JumpSpeedMax = 10;
@@ -35,23 +35,26 @@ public class PlayerJump : MonoBehaviour {
         m_IsReSpwaning = GetComponent<PlayerDeath>().m_IsRespawning;
         m_PlayerIsGrounded = GetComponent<PlayerGravity>().m_IsGrounded;
 
-        if (m_PlayerIsGrounded == true)
-        {
-            m_NbJumps = 2;
-        }
+
 
         //Jumping
         if (Input.GetButtonDown("A_" + m_PlayerID.ToString()) && m_IsReSpwaning == false)
         {
             if (m_NbJumps > 0)
             {
+                JumpsCount();
                 StopAllCoroutines();
                 StartCoroutine(Jumping());
                 StartCoroutine(JumpTimer());
                 StartCoroutine(StopAnim());
-                JumpsCount();
             }
         }
+
+        if (m_PlayerIsGrounded == true && m_IsJumping == false && m_NbJumps != 2)
+        {
+            m_NbJumps = 2;
+        }
+
     }
 
     void JumpsCount()

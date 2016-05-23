@@ -11,8 +11,8 @@ public class BlockPushed : MonoBehaviour {
     Vector3 m_StartPos;
     [SerializeField]
     GameObject m_ColBlock;
-    float m_MoveBlockSpeed = 15;
 
+    public float m_MoveBlockSpeed = 15;
     public GameObject m_PlayerTarget;
     public float m_Timer = 1.5f;
     public bool m_IsMoving = false;
