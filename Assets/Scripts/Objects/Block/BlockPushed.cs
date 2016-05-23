@@ -58,13 +58,13 @@ public class BlockPushed : MonoBehaviour {
 
     private IEnumerator Pushed()
     {
-        m_Rb.isKinematic = false;
         m_StartPos = transform.position;
         SoundManagerEvent.emit(SoundManagerType.BlockPushed);
         m_PsPushed.enabled = true;
         int _timePassed = 0;
         while(_timePassed < m_Timer )
         {
+            m_Rb.isKinematic = false;
             //transform.position = new Vector2(transform.position.x + m_direction.x, transform.position.y + m_direction.y);
             m_Rb.velocity = m_direction * m_MoveBlockSpeed;
             _timePassed++;
