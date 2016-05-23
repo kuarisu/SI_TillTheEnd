@@ -3,7 +3,7 @@ using System.Collections;
 
 public class PlayerGravity : MonoBehaviour {
 
-    [HideInInspector]
+    //[HideInInspector]
     public bool m_IsGrounded = true;
     [HideInInspector]
     public bool m_OnBlock = false;
@@ -15,16 +15,26 @@ public class PlayerGravity : MonoBehaviour {
     public Animator m_An;
 
     public RaycastHit hit;
-    private int m_GravityStrength = 20;
-    private float m_GroundingHeight = 0.5f;
+    [SerializeField]
+    private float m_GravityStrength = 400;
+    [SerializeField]
+    private float m_MaxGravity;
+    [SerializeField]
+    private float m_TimerMax = 1;
+    private float m_Time = 0;
+
+
+    private float m_GroundingHeight = 0.2f;
+
+    private Rigidbody rb;
 
 
 	void Start () {
+        rb = GetComponent<Rigidbody>();
         StartCoroutine(IsGrounded());
 	}
 
     void Update()
-
     {
         Ray groundingRay = new Ray(transform.position, Vector3.down);
         Debug.DrawRay(transform.position, Vector3.down);
@@ -32,7 +42,7 @@ public class PlayerGravity : MonoBehaviour {
         if (Physics.Raycast(groundingRay, out hit, m_GroundingHeight))
         {
             
-            if (hit.collider.tag == "Floor" || hit.collider.tag == "BlockStill" || hit.collider.tag == "BlockMove")
+            if (hit.collider.tag == "BlockStill" || hit.collider.tag == "BlockMove")
             {
                 m_IsGrounded = true;
                 m_An.SetBool("m_IsGrounded", true);
@@ -53,28 +63,45 @@ public class PlayerGravity : MonoBehaviour {
             m_IsGrounded = false;
             m_An.SetBool("m_IsGrounded", false);
         }
-        
+
     }
 
 
     IEnumerator IsGrounded()
     {
+        
         while (true)
         {
-            if (m_IsGrounded == true)
+            if (m_Time < m_TimerMax)
             {
-                yield return new WaitForEndOfFrame();
+                m_Time += Time.deltaTime;
             }
-            if (m_IsGrounded == false)
+            if (m_IsGrounded == false && !GetComponent<PlayerJump>().m_IsJumping)
             {
-                transform.Translate((-Vector3.up * m_GravityStrength) * Time.smoothDeltaTime);
+                if (m_GravityStrength < m_MaxGravity)
+                {
+                    m_GravityStrength += (m_MaxGravity / m_TimerMax) * Time.deltaTime;
+                }
+//                Debug.Log("m_GravityStrength = " + m_GravityStrength + "\n time = " + m_Time);
+
+                rb.AddForce(Vector3.down * m_GravityStrength);
+                    
+            }
+            else
+            {
+                m_GravityStrength = 0;
+                m_Time = 0;
             }
             yield return new WaitForEndOfFrame();
         }
 
-        
     }
-
-
-	
+        void OnCollisionEnter (Collision col)
+        {
+            if((col.collider.tag == "Floor" || col.collider.tag == "BlockStill" || col.collider.tag == "BlockMove"))
+            {
+            SoundManagerEvent.emit(SoundManagerType.PlayerColision);
+            }
+        }
+        	
 }
