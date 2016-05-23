@@ -67,6 +67,7 @@ public class PlayerDeath : MonoBehaviour {
     void Death()
     {
         SoundManagerEvent.emit(SoundManagerType.PlayerDeath);
+        GetComponent<PlayerScoring>().Died();
         StartCoroutine(ReSpawn());
     }
 
