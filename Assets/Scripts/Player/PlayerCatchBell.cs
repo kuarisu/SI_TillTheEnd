@@ -25,7 +25,6 @@ public class PlayerCatchBell : MonoBehaviour {
 
     IEnumerator Catched()
     {
-
         GetComponent<PlayerScoring>().CatchedBell();
         yield return null;
     }
