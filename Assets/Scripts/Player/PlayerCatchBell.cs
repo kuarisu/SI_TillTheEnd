@@ -2,7 +2,7 @@
 using System.Collections;
 using UnityEngine.SceneManagement;
 
-public class PlayerVictory : MonoBehaviour {
+public class PlayerCatchBell : MonoBehaviour {
 
     public GameObject gameManager;
     public GameObject m_PSBellCaught;
@@ -18,16 +18,14 @@ public class PlayerVictory : MonoBehaviour {
         {
             //m_PSBellCaught.GetComponent<BellStockSP>().m_SPCaughtBell.gameObject.SetActive(true);
             SoundManagerEvent.emit(SoundManagerType.BellCaught);
-            StartCoroutine(Victory());
-            Time.timeScale = 0.5f;
+            StartCoroutine(Catched());
         }
     }
 
-    IEnumerator Victory()
+    IEnumerator Catched()
     {
-
-        yield return new WaitForSeconds(2);
-        SceneManager.LoadScene ("GameScene");
-
+        GetComponent<PlayerScoring>().CatchedBell();
+        //FAIRE RESPAWN LA CLOCHE (sur la cloche ?)
+        yield return null;
     }
 }

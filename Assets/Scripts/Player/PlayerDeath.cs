@@ -52,21 +52,12 @@ public class PlayerDeath : MonoBehaviour {
         {
             Death();
         }
-        if (col.collider.gameObject.tag == "BlockMove" && (col.collider.gameObject.GetComponent<BlockPushed>().IdBlock != m_PlayerID))
-        {
-           m_IsMoving =  col.collider.gameObject.GetComponent<BlockPushed>().m_IsMoving;
-            if (m_IsMoving == true) 
-            {
-                Death();
-            }
-
-        }
-
     }
 
-    void Death()
+    public void Death()
     {
         SoundManagerEvent.emit(SoundManagerType.PlayerDeath);
+        GetComponent<PlayerScoring>().Died();
         StartCoroutine(ReSpawn());
     }
 

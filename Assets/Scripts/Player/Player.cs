@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using UnityEngine.UI;
 using System.Collections.Generic;
 
 public class Player : MonoBehaviour {
@@ -10,6 +11,8 @@ public class Player : MonoBehaviour {
     private GameObject m_FxInst;
     public GameObject m_PlayerVisual;
     public GameObject m_TargetMesh;
+    public Text m_Score;
+    public Text m_Multiplicator;
 
     [SerializeField]
     List<Material> m_PlayerMatList = new List<Material>();
@@ -17,6 +20,10 @@ public class Player : MonoBehaviour {
     List<GameObject> m_PlayerFxs= new List<GameObject>();
     [SerializeField]
     List<Material> m_TargetMaterial = new List<Material>();
+    [SerializeField]
+    List<Text> m_PlayerScoreList = new List<Text>();
+    [SerializeField]
+    List<Text> m_PlayerMultiplicatorList = new List<Text>();
 
 
 
@@ -29,32 +36,44 @@ public class Player : MonoBehaviour {
         {
             case 1:
                 m_PlayerVisual.GetComponent<Renderer>().material = m_PlayerMatList[0];
-                m_FxInst = (GameObject)Instantiate(m_PlayerFxs[0], transform.position, Quaternion.identity);
                 m_TargetMesh.GetComponent<Renderer>().material = m_TargetMaterial[0];
+                m_Score = m_PlayerScoreList[0];
+                m_Multiplicator = m_PlayerMultiplicatorList[0];
+
+                m_FxInst = (GameObject)Instantiate(m_PlayerFxs[0], transform.position, Quaternion.identity);
                 m_FxInst.transform.parent = this.transform;
+
                 m_FxInst.name = "PlayerID_1";
+
                 break;
             case 2:
                 m_PlayerVisual.GetComponent<Renderer>().material = m_PlayerMatList[1];
-                m_FxInst = (GameObject)Instantiate(m_PlayerFxs[1], transform.position, Quaternion.identity);
                 m_TargetMesh.GetComponent<Renderer>().material = m_TargetMaterial[1];
+                m_Score = m_PlayerScoreList[1];
+                m_Multiplicator = m_PlayerMultiplicatorList[1];
+
+                m_FxInst = (GameObject)Instantiate(m_PlayerFxs[1], transform.position, Quaternion.identity);
                 m_FxInst.transform.parent = this.transform;
+
+
                 m_FxInst.name = "PlayerID_2";
                 break;
-            case 3:
-                m_PlayerVisual.GetComponent<Renderer>().material = m_PlayerMatList[2];
-                m_FxInst = (GameObject)Instantiate(m_PlayerFxs[2], transform.position, Quaternion.identity);
-                m_TargetMesh.GetComponent<Renderer>().material = m_TargetMaterial[2];
-                m_FxInst.transform.parent = this.transform;
-                m_FxInst.name = "PlayerID_3";
-                break;
-            case 4:
-                m_PlayerVisual.GetComponent<Renderer>().material = m_PlayerMatList[3];
-                m_FxInst = (GameObject)Instantiate(m_PlayerFxs[3], transform.position, Quaternion.identity);
-                m_TargetMesh.GetComponent<Renderer>().material = m_TargetMaterial[3];
-                m_FxInst.transform.parent = this.transform;
-                m_FxInst.name = "PlayerID_4";
-                break;
+
+
+            //case 3:
+            //    m_PlayerVisual.GetComponent<Renderer>().material = m_PlayerMatList[2];
+            //    m_FxInst = (GameObject)Instantiate(m_PlayerFxs[2], transform.position, Quaternion.identity);
+            //    m_TargetMesh.GetComponent<Renderer>().material = m_TargetMaterial[2];
+            //    m_FxInst.transform.parent = this.transform;
+            //    m_FxInst.name = "PlayerID_3";
+            //    break;
+            //case 4:
+            //    m_PlayerVisual.GetComponent<Renderer>().material = m_PlayerMatList[3];
+            //    m_FxInst = (GameObject)Instantiate(m_PlayerFxs[3], transform.position, Quaternion.identity);
+            //    m_TargetMesh.GetComponent<Renderer>().material = m_TargetMaterial[3];
+            //    m_FxInst.transform.parent = this.transform;
+            //    m_FxInst.name = "PlayerID_4";
+            //    break;
             default:
                 break;
         }
@@ -66,7 +85,6 @@ public class Player : MonoBehaviour {
         if (transform.position.z != 0)
             transform.position = new Vector3(transform.position.x, transform.position.y, 0 );
     }
-
 
 }
 

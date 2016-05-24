@@ -11,14 +11,14 @@ public class BlockPushed : MonoBehaviour {
     Vector3 m_StartPos;
     [SerializeField]
     GameObject m_ColBlock;
-    float m_MoveBlockSpeed = 15;
 
+    public float m_MoveBlockSpeed = 15;
     public GameObject m_PlayerTarget;
     public float m_Timer = 1.5f;
     public bool m_IsMoving = false;
     public bool m_Levitation = false;
     public int IdBlock;
-
+    public GameObject m_PlayerPushing;
 
 
     void Start()
@@ -58,25 +58,32 @@ public class BlockPushed : MonoBehaviour {
 
     private IEnumerator Pushed()
     {
-        m_Rb.isKinematic = false;
         m_StartPos = transform.position;
         SoundManagerEvent.emit(SoundManagerType.BlockPushed);
         m_PsPushed.enabled = true;
         int _timePassed = 0;
         while(_timePassed < m_Timer )
         {
+            m_Rb.isKinematic = false;
             //transform.position = new Vector2(transform.position.x + m_direction.x, transform.position.y + m_direction.y);
             m_Rb.velocity = m_direction * m_MoveBlockSpeed;
             _timePassed++;
             yield return new WaitForEndOfFrame();
         }
         m_Rb.velocity = new Vector3 (0, 0,0);
+        m_PlayerPushing = null;
         m_PsPushed.enabled = false;
 
     }
 
     void OnCollisionEnter(Collision col)
     {
+
+        if (col.collider.gameObject.tag == "Player" && (IdBlock != col.collider.transform.parent.GetComponent<Player>().m_PlayerID) && m_IsMoving == true)
+        {
+                col.gameObject.GetComponent<PlayerDeath>().Death();
+                m_PlayerPushing.GetComponent<PlayerScoring>().Killed();
+        }
 
         //Penser à utiliser un layer à part pour le perso plutôt que quinze mille tag
         if (col.gameObject.tag == "Floor" || col.gameObject.tag == "BlockStill" || col.gameObject.tag == "BlockMove" || col.gameObject.tag == "DeathZone")
@@ -89,13 +96,9 @@ public class BlockPushed : MonoBehaviour {
 
                 Vector3 _colNormale = col.contacts[0].normal;
                 m_direction = Vector3.Reflect(col.contacts[0].point - m_StartPos, _colNormale).normalized;
-                //Debug.DrawLine(col.contacts[0].point, col.contacts[0].point + m_direction * 4, Color.yellow, 5, false);
                 m_StartPos = transform.position;
                 StartCoroutine(Clearlist());
 
-                //float _AngleReflex = ((Vector3.Angle(m_direction, _colNormale)));
-                //m_direction = (Quaternion.Euler(0, 0, _AngleReflex) * m_direction);
-                //Debug.DrawLine(col.contacts[0].point, col.contacts[0].point + m_direction * 10, Color.yellow, 10, false);
             }
         }
     }
