@@ -59,7 +59,7 @@ public class PlayerLevitation : MonoBehaviour {
         m_Levitating = true;
         m_PlayerJump.enabled = false;
         hit = GetComponent<PlayerGravity>().hit;
-        hit.collider.gameObject.GetComponent<BlockPushed>().m_Levitation = true;
+        //hit.collider.gameObject.GetComponent<BlockPushed>().m_Levitation = true;
         hit.transform.parent = this.transform;
         while(m_Levitating == true)
         {
@@ -86,7 +86,7 @@ public class PlayerLevitation : MonoBehaviour {
         m_An.SetBool("Levitation", false);
         m_Levitating = false;
         m_PlayerJump.enabled = true;
-        transform.GetChild(5).GetComponent<BlockPushed>().m_Levitation = false;
+        //transform.GetChild(5).GetComponent<BlockPushed>().m_Levitation = false;
         transform.GetChild(5).transform.parent = null;
         yield return null;
     }

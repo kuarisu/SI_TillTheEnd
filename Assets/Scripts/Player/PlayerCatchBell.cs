@@ -4,7 +4,6 @@ using UnityEngine.SceneManagement;
 
 public class PlayerCatchBell : MonoBehaviour {
 
-    public GameObject gameManager;
     public GameObject m_PSBellCaught;
 
     void Start()
@@ -18,14 +17,16 @@ public class PlayerCatchBell : MonoBehaviour {
         {
             //m_PSBellCaught.GetComponent<BellStockSP>().m_SPCaughtBell.gameObject.SetActive(true);
             SoundManagerEvent.emit(SoundManagerType.BellCaught);
+            //Debug.Log(col.transform.parent.transform.parent.GetChild(0).name);
+            col.gameObject.transform.parent.transform.parent.GetChild(1).GetComponent<PathCloche>().StartRespawn();
             StartCoroutine(Catched());
         }
     }
 
     IEnumerator Catched()
     {
+
         GetComponent<PlayerScoring>().CatchedBell();
-        //FAIRE RESPAWN LA CLOCHE (sur la cloche ?)
         yield return null;
     }
 }

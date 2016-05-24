@@ -16,7 +16,7 @@ public class BlockPushed : MonoBehaviour {
     public GameObject m_PlayerTarget;
     public float m_Timer = 1.5f;
     public bool m_IsMoving = false;
-    public bool m_Levitation = false;
+    //public bool m_Levitation = false;
     public int IdBlock;
     public GameObject m_PlayerPushing;
 
@@ -32,7 +32,7 @@ public class BlockPushed : MonoBehaviour {
 
     void Update ()
     {
-        if (transform.position != m_currentPosition && m_Levitation == false)
+        if (transform.position != m_currentPosition)
         {
             m_IsMoving = true;
             m_Rb.isKinematic = false;
@@ -43,8 +43,6 @@ public class BlockPushed : MonoBehaviour {
             m_Rb.isKinematic = true;
         }
         m_currentPosition = transform.position;
-
-        Debug.DrawLine(m_currentPosition, m_currentPosition + m_direction, Color.red, 1, false);
     }
 
     public void PushedCoroutine()
@@ -78,9 +76,9 @@ public class BlockPushed : MonoBehaviour {
 
     void OnCollisionEnter(Collision col)
     {
-
-        if (col.collider.gameObject.tag == "Player" && (IdBlock != col.collider.transform.parent.GetComponent<Player>().m_PlayerID) && m_IsMoving == true)
+        if (col.collider.gameObject.tag == "Player" && (IdBlock != col.collider.transform.parent.GetComponent<Player>().m_PlayerID) && m_Rb.isKinematic == false)
         {
+  
                 col.gameObject.GetComponent<PlayerDeath>().Death();
                 m_PlayerPushing.GetComponent<PlayerScoring>().Killed();
         }
@@ -91,7 +89,6 @@ public class BlockPushed : MonoBehaviour {
             if (m_ColBlock == null)
             {
                 m_ColBlock = col.gameObject;
-                Debug.DrawLine(col.contacts[0].point, col.contacts[0].point + col.contacts[0].normal * 5, Color.blue, 10, false);
                 SoundManagerEvent.emit(SoundManagerType.BlockColision);
 
                 Vector3 _colNormale = col.contacts[0].normal;

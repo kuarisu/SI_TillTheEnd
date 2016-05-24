@@ -92,7 +92,7 @@ public class PlayerScoring : MonoBehaviour {
     {
         if(m_ActualScore >= 0)
         {
-            m_ActualScore += m_BellPoints;
+            m_ActualScore += m_BellPoints * m_ActualMultiplicator;
         }
     }
 
