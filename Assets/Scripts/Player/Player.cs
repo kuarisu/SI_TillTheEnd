@@ -20,10 +20,10 @@ public class Player : MonoBehaviour {
     List<GameObject> m_PlayerFxs= new List<GameObject>();
     [SerializeField]
     List<Material> m_TargetMaterial = new List<Material>();
-    [SerializeField]
-    List<Text> m_PlayerScoreList = new List<Text>();
-    [SerializeField]
-    List<Text> m_PlayerMultiplicatorList = new List<Text>();
+    //[SerializeField]
+    //List<Text> m_PlayerScoreList = new List<Text>();
+    //[SerializeField]
+    //List<Text> m_PlayerMultiplicatorList = new List<Text>();
 
 
 
@@ -37,8 +37,8 @@ public class Player : MonoBehaviour {
             case 1:
                 m_PlayerVisual.GetComponent<Renderer>().material = m_PlayerMatList[0];
                 m_TargetMesh.GetComponent<Renderer>().material = m_TargetMaterial[0];
-                m_Score = m_PlayerScoreList[0];
-                m_Multiplicator = m_PlayerMultiplicatorList[0];
+                m_Score = GameObject.Find("ScoreP1").GetComponent<Text>();
+                m_Multiplicator = GameObject.Find("MultiP1").GetComponent<Text>();
 
                 m_FxInst = (GameObject)Instantiate(m_PlayerFxs[0], transform.position, Quaternion.identity);
                 m_FxInst.transform.parent = this.transform;
@@ -49,8 +49,8 @@ public class Player : MonoBehaviour {
             case 2:
                 m_PlayerVisual.GetComponent<Renderer>().material = m_PlayerMatList[1];
                 m_TargetMesh.GetComponent<Renderer>().material = m_TargetMaterial[1];
-                m_Score = m_PlayerScoreList[1];
-                m_Multiplicator = m_PlayerMultiplicatorList[1];
+                m_Score = GameObject.Find("ScoreP2").GetComponent<Text>();
+                m_Multiplicator = GameObject.Find("MultiP2").GetComponent<Text>();
 
                 m_FxInst = (GameObject)Instantiate(m_PlayerFxs[1], transform.position, Quaternion.identity);
                 m_FxInst.transform.parent = this.transform;

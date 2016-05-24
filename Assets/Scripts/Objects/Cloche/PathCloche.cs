@@ -6,6 +6,7 @@ public class PathCloche : MonoBehaviour {
 
 
     public GameObject centre;
+    public GameObject Visual;
 
     bool canTeleport = true;
 
@@ -68,7 +69,6 @@ public class PathCloche : MonoBehaviour {
 
     void MoveToPosition()
     {
-
         shortVector = Vector3.ClampMagnitude(newDirection, distanceRaycast);
         transform.Translate(shortVector);
         StartCoroutine(CalculateRaycast());
@@ -110,6 +110,19 @@ public class PathCloche : MonoBehaviour {
         canTeleport = false;
         StartCoroutine(CalculateRaycast());
 
+    }
+
+    public void StartRespawn()
+    {
+        StartCoroutine(Respawn());
+    }
+
+    IEnumerator Respawn ()
+    {
+        Visual.SetActive(false);
+        yield return new WaitForSeconds(3);
+        transform.position = centre.transform.position;
+        Visual.SetActive(true);
     }
 }
 
