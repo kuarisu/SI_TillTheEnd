@@ -25,7 +25,6 @@ public class BlockPushed : MonoBehaviour {
 
     void Start()
     {
-        m_Timer = m_Timer * 30;
         m_Rb = GetComponent<Rigidbody>();
         m_currentPosition = transform.position;
         m_PsPushed = GetComponent<ParticleSystem>().emission;
@@ -46,6 +45,7 @@ public class BlockPushed : MonoBehaviour {
         //    m_Rb.isKinematic = true;
         //}
         //m_currentPosition = transform.position;
+
     }
 
     public void PushedCoroutine()
@@ -62,13 +62,22 @@ public class BlockPushed : MonoBehaviour {
         m_StartPos = transform.position;
         SoundManagerEvent.emit(SoundManagerType.BlockPushed);
         m_PsPushed.enabled = true;
-        int _timePassed = 0;
+        float _timePassed = 0;
+        float _currentSpeed = m_MoveBlockSpeed;
         while(_timePassed < m_Timer )
         {
+            if (_timePassed > m_Timer / 4)
+            {
+                _currentSpeed -= ((m_MoveBlockSpeed + _currentSpeed) / m_Timer) * Time.deltaTime;
+            }
+            Debug.Log(_currentSpeed);
             m_Rb.isKinematic = false;
             //transform.position = new Vector2(transform.position.x + m_direction.x, transform.position.y + m_direction.y);
-            m_Rb.velocity = m_direction * m_MoveBlockSpeed;
-            _timePassed++;
+            m_Rb.velocity = m_direction * _currentSpeed;
+            _timePassed += Time.deltaTime;
+
+
+
             yield return new WaitForEndOfFrame();
         }
         m_Rb.velocity = new Vector3 (0, 0,0);
