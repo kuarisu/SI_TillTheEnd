@@ -65,7 +65,6 @@ public class PathCloche : MonoBehaviour {
 
     void WallCollide() //va se déclencher quand le raycast va rencontrer un mur
     {
-        Debug.Log("J'appelle le mur");
         vectorCentre = transform.position - centre.transform.position;
         vectorCentre = Vector3.ClampMagnitude(vectorCentre, distanceRaycast * 50);
         //rayToCentre = new Ray(transform.position, vectorCentre);
