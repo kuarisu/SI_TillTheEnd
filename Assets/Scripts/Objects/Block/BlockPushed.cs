@@ -103,11 +103,7 @@ public class BlockPushed : MonoBehaviour {
         m_PlayerPushing = null;
         m_PsPushed.enabled = false;
 
-<<<<<<< HEAD
-        yield return new WaitForSeconds(1);
-=======
         yield return new WaitForSeconds(m_TimerRespawn);
->>>>>>> refs/remotes/origin/master
         transform.position = m_RespawnPos;
         m_StartPos = transform.position;
 
