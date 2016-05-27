@@ -14,6 +14,7 @@ public class BlockPushed : MonoBehaviour {
     GameObject m_ColBlock;
     Vector3 m_BlockTarget;
 
+    public float m_TimerRespawn;
     public float m_MoveBlockSpeed = 15;
     public GameObject m_PlayerTarget;
     public float m_Timer = 1.5f;
@@ -102,7 +103,11 @@ public class BlockPushed : MonoBehaviour {
         m_PlayerPushing = null;
         m_PsPushed.enabled = false;
 
+<<<<<<< HEAD
         yield return new WaitForSeconds(1);
+=======
+        yield return new WaitForSeconds(m_TimerRespawn);
+>>>>>>> refs/remotes/origin/master
         transform.position = m_RespawnPos;
         m_StartPos = transform.position;
 
