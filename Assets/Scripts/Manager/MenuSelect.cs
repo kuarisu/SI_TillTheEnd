@@ -4,8 +4,6 @@ using UnityEngine.SceneManagement;
 
 public class MenuSelect : MonoBehaviour {
 
-    //public GameObject SelectionPlayer;
-	public GameObject Selection;
 	public GameObject CreditImage;
 	public bool Startable = false;
 	private int Level;
@@ -26,13 +24,6 @@ public class MenuSelect : MonoBehaviour {
         if (Input.GetButton("B_1")) {
             CreditImage.SetActive(false);
         }
-
-        //	if(Startable == true){
-        //		if (Input.GetButton ("Start_1")) {
-        //               LOAD LEVEL
-        //		}
-        //	}
-        //}
     }
 
 	public void Sortir (){

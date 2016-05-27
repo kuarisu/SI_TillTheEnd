@@ -14,6 +14,7 @@ public class BlockPushed : MonoBehaviour {
     GameObject m_ColBlock;
     Vector3 m_BlockTarget;
 
+    public Animator An;
     public float m_TimerRespawn;
     public float m_MoveBlockSpeed = 15;
     public GameObject m_PlayerTarget;
@@ -114,14 +115,15 @@ public class BlockPushed : MonoBehaviour {
         if (col.collider.gameObject.tag == "Player" && (IdBlock != col.collider.transform.parent.GetComponent<Player>().m_PlayerID) && m_Rb.isKinematic == false)
         {
   
-                col.gameObject.GetComponent<PlayerDeath>().Death();
-                m_PlayerPushing.GetComponent<PlayerScoring>().Killed();
+            col.gameObject.GetComponent<PlayerDeath>().Death();
+            m_PlayerPushing.GetComponent<PlayerScoring>().Killed();
+            col.gameObject.GetComponent<BlockPushed>().m_PlayerPushing = m_PlayerPushing;
         }
 
         //Penser à utiliser un layer à part pour le perso plutôt que quinze mille tag
         if (col.gameObject.tag == "Floor" || col.gameObject.tag == "BlockStill" || col.gameObject.tag == "BlockMove" || col.gameObject.tag == "DeathZone")
         {
-
+            An.SetTrigger("Collision");
             if (m_ColBlock == null)
             {
                 CameraShake.instance.ScreenShakeStart();
