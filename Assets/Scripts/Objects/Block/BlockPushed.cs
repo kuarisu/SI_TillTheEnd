@@ -9,10 +9,12 @@ public class BlockPushed : MonoBehaviour {
     Vector3 m_direction;
     ParticleSystem.EmissionModule m_PsPushed;
     Vector3 m_StartPos;
+    Vector3 m_RespawnPos;
     [SerializeField]
     GameObject m_ColBlock;
     Vector3 m_BlockTarget;
 
+    public float m_TimerRespawn;
     public float m_MoveBlockSpeed = 15;
     public GameObject m_PlayerTarget;
     public float m_Timer = 1.5f;
@@ -25,6 +27,8 @@ public class BlockPushed : MonoBehaviour {
 
     void Start()
     {
+        m_RespawnPos = transform.position;
+        m_StartPos = transform.position;
         m_Rb = GetComponent<Rigidbody>();
         m_currentPosition = transform.position;
         m_PsPushed = GetComponent<ParticleSystem>().emission;
@@ -50,7 +54,7 @@ public class BlockPushed : MonoBehaviour {
 
     public void PushedCoroutine()
     {
-
+        StopAllCoroutines();
         Vector3 _positionTarget = m_PlayerTarget.transform.position;
         m_direction = (_positionTarget - transform.position).normalized;
         StartCoroutine(Pushed());
@@ -59,7 +63,21 @@ public class BlockPushed : MonoBehaviour {
 
     private IEnumerator Pushed()
     {
-        m_StartPos = transform.position;
+        switch (IdBlock)
+        {
+            case 1:
+                gameObject.layer = 10;
+
+                break;
+
+            case 2:
+                gameObject.layer = 11;
+
+                break;
+
+            default:
+                break;
+        }
         SoundManagerEvent.emit(SoundManagerType.BlockPushed);
         m_PsPushed.enabled = true;
         float _timePassed = 0;
@@ -68,9 +86,8 @@ public class BlockPushed : MonoBehaviour {
         {
             if (_timePassed > m_Timer / 4)
             {
-                _currentSpeed -= ((m_MoveBlockSpeed + _currentSpeed) / m_Timer) * Time.deltaTime;
+                _currentSpeed -= (m_MoveBlockSpeed / m_Timer )* Time.deltaTime;
             }
-            Debug.Log(_currentSpeed);
             m_Rb.isKinematic = false;
             //transform.position = new Vector2(transform.position.x + m_direction.x, transform.position.y + m_direction.y);
             m_Rb.velocity = m_direction * _currentSpeed;
@@ -80,10 +97,15 @@ public class BlockPushed : MonoBehaviour {
 
             yield return new WaitForEndOfFrame();
         }
+        gameObject.layer = 0;
         m_Rb.velocity = new Vector3 (0, 0,0);
         m_Rb.isKinematic = true;
         m_PlayerPushing = null;
         m_PsPushed.enabled = false;
+
+        yield return new WaitForSeconds(m_TimerRespawn);
+        transform.position = m_RespawnPos;
+        m_StartPos = transform.position;
 
     }
 
