@@ -41,10 +41,10 @@ public class Player : MonoBehaviour {
                 m_Multiplicator = GameObject.Find("MultiP1").GetComponent<Text>();
                 transform.GetChild(1).gameObject.layer = 8;
 
-                m_FxInst = (GameObject)Instantiate(m_PlayerFxs[0], transform.position, Quaternion.identity);
-                m_FxInst.transform.parent = this.transform;
+                //m_FxInst = (GameObject)Instantiate(m_PlayerFxs[0], transform.position, Quaternion.identity);
+                //m_FxInst.transform.parent = this.transform;
 
-                m_FxInst.name = "PlayerID_1";
+                //m_FxInst.name = "PlayerID_1";
 
                 break;
             case 2:
@@ -54,11 +54,11 @@ public class Player : MonoBehaviour {
                 m_Multiplicator = GameObject.Find("MultiP2").GetComponent<Text>();
                 transform.GetChild(1).gameObject.layer = 9;
 
-                m_FxInst = (GameObject)Instantiate(m_PlayerFxs[1], transform.position, Quaternion.identity);
-                m_FxInst.transform.parent = this.transform;
+                //m_FxInst = (GameObject)Instantiate(m_PlayerFxs[1], transform.position, Quaternion.identity);
+                //m_FxInst.transform.parent = this.transform;
 
 
-                m_FxInst.name = "PlayerID_2";
+                //m_FxInst.name = "PlayerID_2";
                 break;
 
 
