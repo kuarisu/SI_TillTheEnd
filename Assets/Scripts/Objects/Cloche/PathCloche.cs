@@ -32,11 +32,6 @@ public class PathCloche : MonoBehaviour {
         centre = ManagerSpawn.instance.m_CurrentLevel.GetComponent<ArenaSpawner>().m_CenterLevel;
         Scan();
     }
-   
-    void Update ()
-    {
-        Debug.DrawRay(transform.position, newDirection * 5, Color.red, 2);
-    }
 
     void Scan() //doit se déclencher quand le chemin est obstrué, pour pouvoir dévier de manière plus marqué
     {

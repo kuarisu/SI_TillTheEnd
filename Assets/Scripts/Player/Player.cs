@@ -39,6 +39,7 @@ public class Player : MonoBehaviour {
                 m_TargetMesh.GetComponent<Renderer>().material = m_TargetMaterial[0];
                 m_Score = GameObject.Find("ScoreP1").GetComponent<Text>();
                 m_Multiplicator = GameObject.Find("MultiP1").GetComponent<Text>();
+                transform.GetChild(1).gameObject.layer = 8;
 
                 m_FxInst = (GameObject)Instantiate(m_PlayerFxs[0], transform.position, Quaternion.identity);
                 m_FxInst.transform.parent = this.transform;
@@ -51,6 +52,7 @@ public class Player : MonoBehaviour {
                 m_TargetMesh.GetComponent<Renderer>().material = m_TargetMaterial[1];
                 m_Score = GameObject.Find("ScoreP2").GetComponent<Text>();
                 m_Multiplicator = GameObject.Find("MultiP2").GetComponent<Text>();
+                transform.GetChild(1).gameObject.layer = 9;
 
                 m_FxInst = (GameObject)Instantiate(m_PlayerFxs[1], transform.position, Quaternion.identity);
                 m_FxInst.transform.parent = this.transform;

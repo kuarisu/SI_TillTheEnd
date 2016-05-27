@@ -11,6 +11,7 @@ public class PlayerJump : MonoBehaviour {
     //private int m_MaxJump = 50;
     private Rigidbody rb;
     public int m_NbJumps = 2;
+    private int m_MemoryNbJumps;
 
     [SerializeField]
     private float m_JumpSpeedMax = 10;
@@ -27,6 +28,7 @@ public class PlayerJump : MonoBehaviour {
         rb = GetComponent<Rigidbody>();
         m_PSJump.SetActive(false);
         m_IsJumping = false;
+        m_MemoryNbJumps = m_NbJumps;
 
 
     }
@@ -50,9 +52,9 @@ public class PlayerJump : MonoBehaviour {
             }
         }
 
-        if (m_PlayerIsGrounded == true && m_IsJumping == false && m_NbJumps != 2)
+        if (m_PlayerIsGrounded == true && m_IsJumping == false && m_NbJumps != m_MemoryNbJumps)
         {
-            m_NbJumps = 2;
+            m_NbJumps = m_MemoryNbJumps;
         }
 
     }
