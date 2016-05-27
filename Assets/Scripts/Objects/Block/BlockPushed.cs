@@ -9,6 +9,7 @@ public class BlockPushed : MonoBehaviour {
     Vector3 m_direction;
     ParticleSystem.EmissionModule m_PsPushed;
     Vector3 m_StartPos;
+    Vector3 m_RespawnPos;
     [SerializeField]
     GameObject m_ColBlock;
     Vector3 m_BlockTarget;
@@ -25,6 +26,7 @@ public class BlockPushed : MonoBehaviour {
 
     void Start()
     {
+        m_RespawnPos = transform.position;
         m_StartPos = transform.position;
         m_Rb = GetComponent<Rigidbody>();
         m_currentPosition = transform.position;
@@ -94,12 +96,15 @@ public class BlockPushed : MonoBehaviour {
 
             yield return new WaitForEndOfFrame();
         }
-        m_StartPos = transform.position;
         gameObject.layer = 0;
         m_Rb.velocity = new Vector3 (0, 0,0);
         m_Rb.isKinematic = true;
         m_PlayerPushing = null;
         m_PsPushed.enabled = false;
+
+        yield return new WaitForSeconds(1);
+        transform.position = m_RespawnPos;
+        m_StartPos = transform.position;
 
     }
 
