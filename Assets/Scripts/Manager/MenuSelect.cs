@@ -29,7 +29,6 @@ public class MenuSelect : MonoBehaviour {
 	public void Sortir (){
 
 		if (Input.GetButton ("A_1")) {
-			Debug.Log ("Chat marche");
 			Application.Quit ();
 		}
 	}

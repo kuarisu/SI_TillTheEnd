@@ -68,12 +68,14 @@ public class PlayerDeath : MonoBehaviour {
         //m_PSMove.SetActive(false);
         Visual.SetActive(false);
         Physics.SetActive(false);
+        GetComponent<Rigidbody>().isKinematic = true;
         yield return new WaitForSeconds(1.5f);
         m_PSDeath.SetActive(false);
         Visual.SetActive(true);
         Physics.SetActive(true);
         //m_PSMove.SetActive(true);
         transform.position = m_currentSpawn;
+        GetComponent<Rigidbody>().isKinematic = false;
         m_IsRespawning = false;
         yield return null;
     }

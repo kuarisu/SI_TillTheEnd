@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using UnityEngine.SceneManagement;
 
 public class ManagerVictory : MonoBehaviour {
 
@@ -7,27 +8,61 @@ public class ManagerVictory : MonoBehaviour {
     public int m_ScoreP1;
     public int m_ScoreP2;
     public int m_ScoreMax;
+    private Coroutine VictoryChecking;
+    private bool CanRestart;
 
-	// Update is called once per frame
-	void Update () {
-	
-        if(m_Timer == 0)
-        {
-            VictoryByTime();
-        }
+    public GameObject VictoryMonk1;
+    public GameObject VictoryMonk2;
+    public GameObject VictoryDraw;
 
-        if (m_ScoreP1 == m_ScoreMax)
-        {
-            VictoryPlayerOne();
-        }
+    public GameObject VictoryFX;
 
-        if (m_ScoreP2 == m_ScoreMax)
-        {
-            VictoryPlayerTwo();
-        }
-
-
+    // Update is called once per frame
+    void Start()
+    {
+        CanRestart = false;
+        VictoryChecking = StartCoroutine(VictoryCheck());
 	}
+
+    void Update()
+    {
+        if (CanRestart == true)
+        {
+            if(Input.GetButtonDown("Start_1") || Input.GetButtonDown("Start_2"))
+            {
+                SceneManager.LoadScene("SelectionCharaScene");
+            }
+        }
+    }
+
+    IEnumerator VictoryCheck()
+    {
+        while (true)
+        {
+            if (m_Timer <= 0)
+            {
+                VictoryByTime();
+                StopCoroutine(VictoryChecking);
+                yield return null;
+            }
+
+            if (m_ScoreP1 >= m_ScoreMax)
+            {
+                VictoryPlayerOne();
+                StopCoroutine(VictoryChecking);
+                yield return null;
+            }
+
+            if (m_ScoreP2 >= m_ScoreMax)
+            {
+                VictoryPlayerTwo();
+                StopCoroutine(VictoryChecking);
+                yield return null;
+            }
+
+            yield return new WaitForEndOfFrame();
+        }
+    }
 
     void VictoryByTime()
     {
@@ -35,22 +70,53 @@ public class ManagerVictory : MonoBehaviour {
         //comment je vais comparer...
         if (m_ScoreP1 > m_ScoreP2)
         {
-            VictoryPlayerOne();
+            StartCoroutine(VictoryPlayerOne()); 
         }
         if (m_ScoreP2 > m_ScoreP1)
         {
-            VictoryPlayerTwo();
+            StartCoroutine(VictoryPlayerTwo());
+        }
+
+        if(m_ScoreP2 == m_ScoreP1)
+        {
+            StartCoroutine(Draw()); 
         }
 
     }
 
-    void VictoryPlayerOne()
+    IEnumerator VictoryPlayerOne()
     {
-        Debug.Log("Player One WINS");
+        VictoryFX.SetActive(true);
+        CameraShakeEnd.instance.ScreenShakeStart();
+        Time.timeScale = 0.5f;
+        yield return new WaitForSeconds(1.5f);
+        CanRestart = true;
+        VictoryMonk1.SetActive(true);
+        //Reload scene de selection des perso
+        yield return null;
     }
 
-    void VictoryPlayerTwo()
+    IEnumerator VictoryPlayerTwo()
     {
-        Debug.Log("Player two WINS");
+        VictoryFX.SetActive(true);
+        CameraShakeEnd.instance.ScreenShakeStart();
+        Time.timeScale = 0.5f;
+        yield return new WaitForSeconds(1.5f);
+        CanRestart = true;
+        VictoryMonk2.SetActive(true);
+        //Reload scene de selection des perso
+        yield return null;
+    }
+
+    IEnumerator Draw()
+    {
+        VictoryFX.SetActive(true);
+        CameraShakeEnd.instance.ScreenShakeStart();
+        Time.timeScale = 0.5f;
+        yield return new WaitForSeconds(1.5f);
+        CanRestart = true;
+        VictoryDraw.SetActive(true);
+        //Reload scene de selection des perso
+        yield return null;
     }
 }

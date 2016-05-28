@@ -14,6 +14,7 @@ public class LevelSelect : MonoBehaviour {
 
     void Start()
     {
+        ManagerSpawn.instance.transform.GetChild(0).gameObject.SetActive(true);
         SoundManagerEvent.emit(SoundManagerType.GameMusic);
         SpawnLevel();
     }
@@ -29,19 +30,19 @@ public class LevelSelect : MonoBehaviour {
 
 		}
 
-		else if (ManagerSpawn.instance.m_NbPlayers == 3) {
+		//else if (ManagerSpawn.instance.m_NbPlayers == 3) {
 
-			_CurrentLevel = m_Level1v1v1 [Random.Range (0, m_Level1v1.Count)];
-			Instantiate (_CurrentLevel, new Vector3(0 , 0, 0), Quaternion.identity);
+		//	_CurrentLevel = m_Level1v1v1 [Random.Range (0, m_Level1v1.Count)];
+		//	Instantiate (_CurrentLevel, new Vector3(0 , 0, 0), Quaternion.identity);
 
-		}
+		//}
 
-		else if (ManagerSpawn.instance.m_NbPlayers == 4) {
+		//else if (ManagerSpawn.instance.m_NbPlayers == 4) {
 
-			_CurrentLevel = m_Level1v1v1v1 [Random.Range (0, m_Level1v1.Count)];
-			Instantiate (_CurrentLevel, new Vector3(0 , 0, 0), Quaternion.identity);
+		//	_CurrentLevel = m_Level1v1v1v1 [Random.Range (0, m_Level1v1.Count)];
+		//	Instantiate (_CurrentLevel, new Vector3(0 , 0, 0), Quaternion.identity);
 
-		}
+		//}
 
         ManagerSpawn.instance.m_CurrentLevel = _CurrentLevel;
         ManagerSpawn.instance.SpawnChara();

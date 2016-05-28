@@ -26,7 +26,6 @@ public class SoundManager : MonoBehaviour {
 	// Use this for initialization
 	void Start()
 	{
-        Debug.Log("SoundManager");
 		SoundManagerEvent.onEvent += Play;
 	}
 
