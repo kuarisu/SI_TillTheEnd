@@ -117,7 +117,6 @@ public class BlockPushed : MonoBehaviour {
   
             col.gameObject.GetComponent<PlayerDeath>().Death();
             m_PlayerPushing.GetComponent<PlayerScoring>().Killed();
-            col.gameObject.GetComponent<BlockPushed>().m_PlayerPushing = m_PlayerPushing;
         }
 
         //Penser à utiliser un layer à part pour le perso plutôt que quinze mille tag
@@ -143,6 +142,7 @@ public class BlockPushed : MonoBehaviour {
             
             col.gameObject.GetComponent<BlockPushed>().m_BlockTarget = transform.position;
             col.gameObject.GetComponent<BlockPushed>().StartPushedByBlock();
+            col.gameObject.GetComponent<BlockPushed>().m_PlayerPushing = m_PlayerPushing;
 
         }
     }

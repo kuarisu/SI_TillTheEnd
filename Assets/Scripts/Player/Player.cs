@@ -7,6 +7,7 @@ public class Player : MonoBehaviour {
 
     public int m_PlayerID;
     public Vector3 m_SpawnPoint;
+    public int m_TimerAnimation;
 
     private GameObject m_FxInst;
     public GameObject m_PlayerVisual;
@@ -27,6 +28,7 @@ public class Player : MonoBehaviour {
 
 
 
+
     void Start()
     {
         m_SpawnPoint = transform.position;
@@ -41,11 +43,6 @@ public class Player : MonoBehaviour {
                 m_Multiplicator = GameObject.Find("MultiP1").GetComponent<Text>();
                 transform.GetChild(1).gameObject.layer = 8;
 
-                //m_FxInst = (GameObject)Instantiate(m_PlayerFxs[0], transform.position, Quaternion.identity);
-                //m_FxInst.transform.parent = this.transform;
-
-                //m_FxInst.name = "PlayerID_1";
-
                 break;
             case 2:
                 m_PlayerVisual.GetComponent<Renderer>().material = m_PlayerMatList[1];
@@ -54,11 +51,6 @@ public class Player : MonoBehaviour {
                 m_Multiplicator = GameObject.Find("MultiP2").GetComponent<Text>();
                 transform.GetChild(1).gameObject.layer = 9;
 
-                //m_FxInst = (GameObject)Instantiate(m_PlayerFxs[1], transform.position, Quaternion.identity);
-                //m_FxInst.transform.parent = this.transform;
-
-
-                //m_FxInst.name = "PlayerID_2";
                 break;
 
 
@@ -78,8 +70,11 @@ public class Player : MonoBehaviour {
             //    break;
             default:
                 break;
+
+
         }
         #endregion
+
     }
 
     void Update()
