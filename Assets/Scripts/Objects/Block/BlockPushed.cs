@@ -24,6 +24,8 @@ public class BlockPushed : MonoBehaviour {
     //public bool m_Levitation = false;
     public int IdBlock;
     public GameObject m_PlayerPushing;
+    public GameObject m_FXDespawn;
+    public GameObject m_FXRespawn;
 
 
     void Start()
@@ -104,9 +106,14 @@ public class BlockPushed : MonoBehaviour {
         m_PlayerPushing = null;
         m_PsPushed.enabled = false;
 
+        m_FXDespawn.SetActive(true);
         yield return new WaitForSeconds(m_TimerRespawn);
+        m_FXDespawn.SetActive(false);
         transform.position = m_RespawnPos;
+        m_FXRespawn.SetActive(true);
         m_StartPos = transform.position;
+        yield return new WaitForSeconds(0.75f);
+        m_FXRespawn.SetActive(false);
 
     }
 
