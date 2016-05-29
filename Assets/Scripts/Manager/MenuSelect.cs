@@ -35,9 +35,7 @@ public class MenuSelect : MonoBehaviour {
 
 	public void Sortir (){
 
-		if (Input.GetButton ("A_1")) {
 			Application.Quit ();
-		}
 	}
 
 
