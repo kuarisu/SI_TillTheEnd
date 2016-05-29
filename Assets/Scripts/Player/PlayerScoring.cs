@@ -8,6 +8,8 @@ public class PlayerScoring : MonoBehaviour {
     public int m_BellPoints;
     public int m_DeathZonePoints;
     public int m_KillMultiplicator;
+    public GameObject ManagerVictoryobject;
+
     [HideInInspector]
     public int m_ActualScore;
     private int m_ActualMultiplicator;
@@ -23,7 +25,7 @@ public class PlayerScoring : MonoBehaviour {
 
     void Start () {
 
-        m_MaxScore = ManagerSpawn.instance.GetComponent<ManagerVictory>().m_ScoreMax;
+        m_MaxScore = ManagerVictory.instance.GetComponent<ManagerVictory>().m_ScoreMax;
         m_PlayerID = GetComponent<Player>().m_PlayerID;
         m_ActualMultiplicator = 1;
         m_ActualScore = 0;
@@ -31,25 +33,25 @@ public class PlayerScoring : MonoBehaviour {
 	
 	void Update () {
 
-        GetComponent<Player>().m_Score.text = "Player P" + m_PlayerID.ToString() + ": " + m_ActualScore.ToString();
-        GetComponent<Player>().m_Multiplicator.text = "x" + m_ActualMultiplicator.ToString();
+        GetComponent<Player>().m_Score.text =  m_ActualScore.ToString();
+        GetComponent<Player>().m_Multiplicator.text = "x " + m_ActualMultiplicator.ToString();
         Mathf.Clamp(m_ActualScore, 0, m_MaxScore);
         if (m_ActualScore == m_MaxScore)
         {
             if (m_PlayerID == 1)
-                ManagerSpawn.instance.GetComponent<ManagerVictory>().m_ScoreP1 = m_ActualScore;
+                ManagerVictory.instance.m_ScoreP1 = m_ActualScore;
 
             if (m_PlayerID == 2)
-                ManagerSpawn.instance.GetComponent<ManagerVictory>().m_ScoreP2 = m_ActualScore;
+                ManagerVictory.instance.m_ScoreP2 = m_ActualScore;
         }
 
-        if (ManagerSpawn.instance.GetComponent<ManagerVictory>().m_Timer == 0)
+        if (ManagerVictory.instance.GetComponent<ManagerVictory>().m_Timer == 0)
         {
             if (m_PlayerID == 1)
-                ManagerSpawn.instance.GetComponent<ManagerVictory>().m_ScoreP1 = m_ActualScore;
+                ManagerVictory.instance.m_ScoreP1 = m_ActualScore;
 
             if (m_PlayerID == 2)
-                ManagerSpawn.instance.GetComponent<ManagerVictory>().m_ScoreP2 = m_ActualScore;
+                ManagerVictory.instance.m_ScoreP2 = m_ActualScore;
         }
 
         //if (m_PreviousScore != m_ActualScore)

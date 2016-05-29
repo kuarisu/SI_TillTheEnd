@@ -14,7 +14,6 @@ public class LevelSelect : MonoBehaviour {
 
     void Start()
     {
-        ManagerSpawn.instance.transform.GetChild(0).gameObject.SetActive(true);
         SoundManagerEvent.emit(SoundManagerType.GameMusic);
         SpawnLevel();
     }

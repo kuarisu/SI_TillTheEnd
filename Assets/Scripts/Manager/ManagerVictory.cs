@@ -4,6 +4,8 @@ using UnityEngine.SceneManagement;
 
 public class ManagerVictory : MonoBehaviour {
 
+    public static ManagerVictory instance = null;
+
     public float m_Timer; //en seconde 
     public int m_ScoreP1;
     public int m_ScoreP2;
@@ -14,10 +16,22 @@ public class ManagerVictory : MonoBehaviour {
     public GameObject VictoryMonk1;
     public GameObject VictoryMonk2;
     public GameObject VictoryDraw;
+    public GameObject TimerManager;
 
     public GameObject VictoryFX;
 
     // Update is called once per frame
+
+    void Awake()
+    {
+        if (instance == null)
+            instance = this;
+
+        else if (instance != this)
+            Destroy(gameObject);
+
+    }
+
     void Start()
     {
         CanRestart = false;
@@ -28,9 +42,14 @@ public class ManagerVictory : MonoBehaviour {
     {
         if (CanRestart == true)
         {
-            if(Input.GetButtonDown("Start_1") || Input.GetButtonDown("Start_2"))
+            if(Input.GetButtonDown("B_1") || Input.GetButtonDown("B_2"))
             {
-                SceneManager.LoadScene("SelectionCharaScene");
+                SceneManager.LoadScene("SelectionScene");
+                TimerManager.SetActive(false);
+                VictoryMonk1.SetActive(false);
+                VictoryMonk2.SetActive(false);
+                VictoryDraw.SetActive(false);
+                VictoryFX.SetActive(false);
             }
         }
     }

@@ -5,6 +5,7 @@ using UnityEngine.SceneManagement;
 public class MenuSelect : MonoBehaviour {
 
 	public GameObject CreditImage;
+    public GameObject HowToImage;
 	public bool Startable = false;
 	private int Level;
 
@@ -19,10 +20,16 @@ public class MenuSelect : MonoBehaviour {
 		CreditImage.SetActive (true);
 	}
 
+    public void HowToPlay()
+    {
+        HowToImage.SetActive(true);
+    }
+
     public void Update() {
 
         if (Input.GetButton("B_1")) {
             CreditImage.SetActive(false);
+            HowToImage.SetActive(false);
         }
     }
 
@@ -32,6 +39,7 @@ public class MenuSelect : MonoBehaviour {
 			Application.Quit ();
 		}
 	}
+
 
 	public void Demarrage (int Level){
 		

@@ -14,29 +14,33 @@ public class ManagerTimer : MonoBehaviour {
     /*** pour le formatage ****/
     private float minutes;
     private float seconds;
+    private bool CanStart = false;
 
     void Start()
     {
-        m_TimeMax = ManagerSpawn.instance.GetComponent<ManagerVictory>().m_Timer;
+        m_TimeMax = transform.parent.GetComponent<ManagerVictory>().m_Timer;
+        CanStart = true;
     }
 
     void Update()
     {
-        if (m_passedTime >= 0)
+        if (CanStart)
         {
-            //le temps écoulé = TimerMax - temps actuel
-            m_passedTime = m_TimeMax - Time.time;
+            if (m_passedTime >= 0)
+            {
+                //le temps écoulé = TimerMax - temps actuel
+                m_passedTime = m_TimeMax - Time.timeSinceLevelLoad;
 
-            //formatage
-            minutes = m_passedTime / 60;
-            seconds = m_passedTime % 60;
+                //formatage
+                minutes = m_passedTime / 60;
+                seconds = m_passedTime % 60;
 
-            message.text = "Temps écoulé : " + string.Format("{0:00}:{1:00}", minutes, seconds);
+                message.text = string.Format("{0:00}:{1:00}", minutes, seconds);
+            }
+            else if (m_passedTime < 0)
+            {
+                transform.parent.GetComponent<ManagerVictory>().m_Timer = 0;
+            }
         }
-        else if (m_passedTime < 0)
-        {
-            ManagerSpawn.instance.GetComponent<ManagerVictory>().m_Timer = 0;
-        }
-
     }
 }

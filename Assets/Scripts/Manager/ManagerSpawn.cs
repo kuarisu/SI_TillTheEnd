@@ -48,6 +48,10 @@ public class ManagerSpawn : MonoBehaviour {
                 _playerInst.gameObject.name = "Player" + (i+1);
                 _playerInst.GetComponent<Player>().m_PlayerID = i + 1;
             }
+
+            m_NbPlayers = 0;
         }
+
+
     }
 }

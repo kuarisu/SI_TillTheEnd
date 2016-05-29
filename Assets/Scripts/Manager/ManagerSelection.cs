@@ -4,10 +4,7 @@ using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 
 public class ManagerSelection : MonoBehaviour {
-
-
-
-
+    
     public Image Pl_One;
     public Image Pl_Two;
     public Image B_P1;
