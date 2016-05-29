@@ -67,14 +67,15 @@ public class ManagerVictory : MonoBehaviour {
 
             if (m_ScoreP1 >= m_ScoreMax)
             {
-                VictoryPlayerOne();
+                StartCoroutine(VictoryPlayerOne());
                 StopCoroutine(VictoryChecking);
                 yield return null;
             }
 
             if (m_ScoreP2 >= m_ScoreMax)
             {
-                VictoryPlayerTwo();
+
+                StartCoroutine(VictoryPlayerTwo());
                 StopCoroutine(VictoryChecking);
                 yield return null;
             }
@@ -117,6 +118,7 @@ public class ManagerVictory : MonoBehaviour {
 
     IEnumerator VictoryPlayerTwo()
     {
+
         VictoryFX.SetActive(true);
         CameraShakeEnd.instance.ScreenShakeStart();
         Time.timeScale = 0.5f;

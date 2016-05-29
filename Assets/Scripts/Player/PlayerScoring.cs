@@ -4,7 +4,7 @@ using System.Collections;
 
 public class PlayerScoring : MonoBehaviour {
 
-    public int m_MaxScore = 500;
+    public int m_MaxScore;
     public int m_BellPoints;
     public int m_DeathZonePoints;
     public int m_KillMultiplicator;
@@ -25,7 +25,7 @@ public class PlayerScoring : MonoBehaviour {
 
     void Start () {
 
-        m_MaxScore = ManagerVictory.instance.GetComponent<ManagerVictory>().m_ScoreMax;
+        m_MaxScore = 150;
         m_PlayerID = GetComponent<Player>().m_PlayerID;
         m_ActualMultiplicator = 1;
         m_ActualScore = 0;
@@ -36,7 +36,7 @@ public class PlayerScoring : MonoBehaviour {
         GetComponent<Player>().m_Score.text =  m_ActualScore.ToString();
         GetComponent<Player>().m_Multiplicator.text = "x " + m_ActualMultiplicator.ToString();
         Mathf.Clamp(m_ActualScore, 0, m_MaxScore);
-        if (m_ActualScore == m_MaxScore)
+        if (m_ActualScore >= m_MaxScore)
         {
             if (m_PlayerID == 1)
                 ManagerVictory.instance.m_ScoreP1 = m_ActualScore;
